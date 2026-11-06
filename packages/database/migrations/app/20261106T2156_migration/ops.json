@@ -1,0 +1,962 @@
+[
+  {
+    "id": "schema.public",
+    "label": "Create schema \"public\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres"
+    },
+    "precheck": [],
+    "execute": [
+      {
+        "description": "Create schema \"public\"",
+        "sql": "CREATE SCHEMA IF NOT EXISTS \"public\"",
+        "params": []
+      }
+    ],
+    "postcheck": []
+  },
+  {
+    "id": "table.job_skills",
+    "label": "Create table \"job_skills\"",
+    "summary": "Creates table \"job_skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "job_skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"job_skills\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"job_skills\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"job_skills\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"job_skills\"",
+        "sql": "CREATE TABLE \"public\".\"job_skills\" (\n  \"jobId\" int4 NOT NULL,\n  \"relevance\" int4 NOT NULL,\n  \"skillId\" int4 NOT NULL,\n  PRIMARY KEY (\"jobId\", \"skillId\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"job_skills\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"job_skills\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"job_skills\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "table.jobs",
+    "label": "Create table \"jobs\"",
+    "summary": "Creates table \"jobs\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "jobs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"jobs\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"jobs\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"jobs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"jobs\"",
+        "sql": "CREATE TABLE \"public\".\"jobs\" (\n  \"annotations\" text NOT NULL,\n  \"application_date\" timestamptz NOT NULL,\n  \"company_name\" text NOT NULL,\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"description\" text NOT NULL,\n  \"email\" text NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"job_link\" text NOT NULL,\n  \"kanban_status_id\" int4 NOT NULL,\n  \"metadata\" jsonb NOT NULL,\n  \"phone\" text NOT NULL,\n  \"rating\" int4 NOT NULL,\n  \"title\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"jobs\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"jobs\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"jobs\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "table.jobs_history",
+    "label": "Create table \"jobs_history\"",
+    "summary": "Creates table \"jobs_history\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "jobs_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"jobs_history\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"jobs_history\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"jobs_history\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"jobs_history\"",
+        "sql": "CREATE TABLE \"public\".\"jobs_history\" (\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"field\" text NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"job_id\" int4 NOT NULL,\n  \"new_value\" text NOT NULL,\n  \"old_value\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"jobs_history\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"jobs_history\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"jobs_history\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "table.kanban_status",
+    "label": "Create table \"kanban_status\"",
+    "summary": "Creates table \"kanban_status\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "kanban_status"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"kanban_status\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"kanban_status\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"kanban_status\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"kanban_status\"",
+        "sql": "CREATE TABLE \"public\".\"kanban_status\" (\n  \"column_name\" text NOT NULL,\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"position\" int4 NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"kanban_status\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"kanban_status\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"kanban_status\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "table.skills",
+    "label": "Create table \"skills\"",
+    "summary": "Creates table \"skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"skills\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"skills\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"skills\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"skills\"",
+        "sql": "CREATE TABLE \"public\".\"skills\" (\n  \"annotations\" text NOT NULL,\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"group_id\" int4 NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"name\" text NOT NULL,\n  \"rating\" int4 NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"skills\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"skills\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"skills\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "table.skills_group",
+    "label": "Create table \"skills_group\"",
+    "summary": "Creates table \"skills_group\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "skills_group"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"skills_group\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"skills_group\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"skills_group\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"skills_group\"",
+        "sql": "CREATE TABLE \"public\".\"skills_group\" (\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"name\" text NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"skills_group\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"skills_group\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"skills_group\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "table.skills_history",
+    "label": "Create table \"skills_history\"",
+    "summary": "Creates table \"skills_history\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "table",
+        "name": "skills_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure table \"skills_history\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"skills_history\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "table \"skills_history\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create table \"skills_history\"",
+        "sql": "CREATE TABLE \"public\".\"skills_history\" (\n  \"created_at\" timestamptz DEFAULT (now()) NOT NULL,\n  \"field\" text NOT NULL,\n  \"id\" SERIAL NOT NULL,\n  \"new_value\" text NOT NULL,\n  \"old_value\" text NOT NULL,\n  \"skill_id\" int4 NOT NULL,\n  PRIMARY KEY (\"id\")\n)",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify table \"skills_history\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3))) AS \"result\"",
+        "params": [
+          "\"public\".\"skills_history\"",
+          "r",
+          "p"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "table \"skills_history\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "index.job_skills.job_skills_jobId_idx_623c8f77",
+    "label": "Create index \"job_skills_jobId_idx_623c8f77\" on \"job_skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "job_skills_jobId_idx_623c8f77",
+        "table": "job_skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"job_skills_jobId_idx_623c8f77\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"job_skills_jobId_idx_623c8f77\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"job_skills_jobId_idx_623c8f77\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"job_skills_jobId_idx_623c8f77\"",
+        "sql": "CREATE INDEX \"job_skills_jobId_idx_623c8f77\" ON \"public\".\"job_skills\" (\"jobId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"job_skills_jobId_idx_623c8f77\" exists on \"job_skills\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"job_skills_jobId_idx_623c8f77\"",
+          "i",
+          "I",
+          "\"public\".\"job_skills\"",
+          "btree",
+          "[\"jobId\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.job_skills.job_skills_skillId_idx_6e19993d",
+    "label": "Create index \"job_skills_skillId_idx_6e19993d\" on \"job_skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "job_skills_skillId_idx_6e19993d",
+        "table": "job_skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"job_skills_skillId_idx_6e19993d\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"job_skills_skillId_idx_6e19993d\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"job_skills_skillId_idx_6e19993d\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"job_skills_skillId_idx_6e19993d\"",
+        "sql": "CREATE INDEX \"job_skills_skillId_idx_6e19993d\" ON \"public\".\"job_skills\" (\"skillId\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"job_skills_skillId_idx_6e19993d\" exists on \"job_skills\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"job_skills_skillId_idx_6e19993d\"",
+          "i",
+          "I",
+          "\"public\".\"job_skills\"",
+          "btree",
+          "[\"skillId\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.jobs.jobs_kanban_status_id_idx_1a7ae45c",
+    "label": "Create index \"jobs_kanban_status_id_idx_1a7ae45c\" on \"jobs\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "jobs_kanban_status_id_idx_1a7ae45c",
+        "table": "jobs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"jobs_kanban_status_id_idx_1a7ae45c\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"jobs_kanban_status_id_idx_1a7ae45c\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"jobs_kanban_status_id_idx_1a7ae45c\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"jobs_kanban_status_id_idx_1a7ae45c\"",
+        "sql": "CREATE INDEX \"jobs_kanban_status_id_idx_1a7ae45c\" ON \"public\".\"jobs\" (\"kanban_status_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"jobs_kanban_status_id_idx_1a7ae45c\" exists on \"jobs\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"jobs_kanban_status_id_idx_1a7ae45c\"",
+          "i",
+          "I",
+          "\"public\".\"jobs\"",
+          "btree",
+          "[\"kanban_status_id\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.jobs_history.jobs_history_job_id_idx_58a5bbdd",
+    "label": "Create index \"jobs_history_job_id_idx_58a5bbdd\" on \"jobs_history\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "jobs_history_job_id_idx_58a5bbdd",
+        "table": "jobs_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"jobs_history_job_id_idx_58a5bbdd\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"jobs_history_job_id_idx_58a5bbdd\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"jobs_history_job_id_idx_58a5bbdd\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"jobs_history_job_id_idx_58a5bbdd\"",
+        "sql": "CREATE INDEX \"jobs_history_job_id_idx_58a5bbdd\" ON \"public\".\"jobs_history\" (\"job_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"jobs_history_job_id_idx_58a5bbdd\" exists on \"jobs_history\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"jobs_history_job_id_idx_58a5bbdd\"",
+          "i",
+          "I",
+          "\"public\".\"jobs_history\"",
+          "btree",
+          "[\"job_id\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.skills.skills_group_id_idx_704354b6",
+    "label": "Create index \"skills_group_id_idx_704354b6\" on \"skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "skills_group_id_idx_704354b6",
+        "table": "skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"skills_group_id_idx_704354b6\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"skills_group_id_idx_704354b6\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"skills_group_id_idx_704354b6\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"skills_group_id_idx_704354b6\"",
+        "sql": "CREATE INDEX \"skills_group_id_idx_704354b6\" ON \"public\".\"skills\" (\"group_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"skills_group_id_idx_704354b6\" exists on \"skills\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"skills_group_id_idx_704354b6\"",
+          "i",
+          "I",
+          "\"public\".\"skills\"",
+          "btree",
+          "[\"group_id\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "index.skills_history.skills_history_skill_id_idx_676c8389",
+    "label": "Create index \"skills_history_skill_id_idx_676c8389\" on \"skills_history\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "index",
+        "name": "skills_history_skill_id_idx_676c8389",
+        "table": "skills_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure index \"skills_history_skill_id_idx_676c8389\" does not exist",
+        "sql": "SELECT (to_regclass($1)) IS NULL AS \"result\"",
+        "params": [
+          "\"public\".\"skills_history_skill_id_idx_676c8389\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "index \"skills_history_skill_id_idx_676c8389\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "create index \"skills_history_skill_id_idx_676c8389\"",
+        "sql": "CREATE INDEX \"skills_history_skill_id_idx_676c8389\" ON \"public\".\"skills_history\" (\"skill_id\")",
+        "params": []
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify index \"skills_history_skill_id_idx_676c8389\" exists on \"skills_history\" with the planned definition",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_class\" AS \"c\" INNER JOIN \"pg_index\" AS \"i\" ON \"i\".\"indexrelid\" = \"c\".\"oid\" INNER JOIN \"pg_am\" AS \"m\" ON \"m\".\"oid\" = \"c\".\"relam\" WHERE (\"c\".\"oid\" = to_regclass($1) AND (\"c\".\"relkind\" = $2 OR \"c\".\"relkind\" = $3) AND \"i\".\"indrelid\" = to_regclass($4) AND NOT (\"i\".\"indisunique\") AND \"m\".\"amname\" = $5 AND (\"i\".\"indexprs\" IS NULL AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"i\".\"indkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"i\".\"indrelid\" AND key_attribute.attnum = key_column.attnum) = ($6)::jsonb) AND \"i\".\"indpred\" IS NULL)) AS \"result\"",
+        "params": [
+          "\"public\".\"skills_history_skill_id_idx_676c8389\"",
+          "i",
+          "I",
+          "\"public\".\"skills_history\"",
+          "btree",
+          "[\"skill_id\"]"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.job_skills.job_skills_jobId_fkey",
+    "label": "Add foreign key \"job_skills_jobId_fkey\" on \"job_skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "job_skills_jobId_fkey",
+        "table": "job_skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"job_skills_jobId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "job_skills_jobId_fkey",
+          "public",
+          "\"public\".\"job_skills\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"job_skills_jobId_fkey\" on \"job_skills\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"job_skills_jobId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"job_skills\"\nADD CONSTRAINT \"job_skills_jobId_fkey\"\nFOREIGN KEY (\"jobId\")\nREFERENCES \"public\".\"jobs\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"job_skills_jobId_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "job_skills_jobId_fkey",
+          "public",
+          "\"public\".\"job_skills\"",
+          "f",
+          "[\"jobId\"]",
+          "\"public\".\"jobs\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.job_skills.job_skills_skillId_fkey",
+    "label": "Add foreign key \"job_skills_skillId_fkey\" on \"job_skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "job_skills_skillId_fkey",
+        "table": "job_skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"job_skills_skillId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "job_skills_skillId_fkey",
+          "public",
+          "\"public\".\"job_skills\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"job_skills_skillId_fkey\" on \"job_skills\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"job_skills_skillId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"job_skills\"\nADD CONSTRAINT \"job_skills_skillId_fkey\"\nFOREIGN KEY (\"skillId\")\nREFERENCES \"public\".\"skills\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"job_skills_skillId_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "job_skills_skillId_fkey",
+          "public",
+          "\"public\".\"job_skills\"",
+          "f",
+          "[\"skillId\"]",
+          "\"public\".\"skills\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.jobs.jobs_kanban_status_id_fkey",
+    "label": "Add foreign key \"jobs_kanban_status_id_fkey\" on \"jobs\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "jobs_kanban_status_id_fkey",
+        "table": "jobs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"jobs_kanban_status_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "jobs_kanban_status_id_fkey",
+          "public",
+          "\"public\".\"jobs\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"jobs_kanban_status_id_fkey\" on \"jobs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"jobs_kanban_status_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"jobs\"\nADD CONSTRAINT \"jobs_kanban_status_id_fkey\"\nFOREIGN KEY (\"kanban_status_id\")\nREFERENCES \"public\".\"kanban_status\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"jobs_kanban_status_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "jobs_kanban_status_id_fkey",
+          "public",
+          "\"public\".\"jobs\"",
+          "f",
+          "[\"kanban_status_id\"]",
+          "\"public\".\"kanban_status\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.jobs_history.jobs_history_job_id_fkey",
+    "label": "Add foreign key \"jobs_history_job_id_fkey\" on \"jobs_history\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "jobs_history_job_id_fkey",
+        "table": "jobs_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"jobs_history_job_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "jobs_history_job_id_fkey",
+          "public",
+          "\"public\".\"jobs_history\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"jobs_history_job_id_fkey\" on \"jobs_history\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"jobs_history_job_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"jobs_history\"\nADD CONSTRAINT \"jobs_history_job_id_fkey\"\nFOREIGN KEY (\"job_id\")\nREFERENCES \"public\".\"jobs\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"jobs_history_job_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "jobs_history_job_id_fkey",
+          "public",
+          "\"public\".\"jobs_history\"",
+          "f",
+          "[\"job_id\"]",
+          "\"public\".\"jobs\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.skills.skills_group_id_fkey",
+    "label": "Add foreign key \"skills_group_id_fkey\" on \"skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "skills_group_id_fkey",
+        "table": "skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"skills_group_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "skills_group_id_fkey",
+          "public",
+          "\"public\".\"skills\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"skills_group_id_fkey\" on \"skills\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"skills_group_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"skills\"\nADD CONSTRAINT \"skills_group_id_fkey\"\nFOREIGN KEY (\"group_id\")\nREFERENCES \"public\".\"skills_group\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"skills_group_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "skills_group_id_fkey",
+          "public",
+          "\"public\".\"skills\"",
+          "f",
+          "[\"group_id\"]",
+          "\"public\".\"skills_group\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.skills_history.skills_history_skill_id_fkey",
+    "label": "Add foreign key \"skills_history_skill_id_fkey\" on \"skills_history\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "skills_history_skill_id_fkey",
+        "table": "skills_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"skills_history_skill_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "skills_history_skill_id_fkey",
+          "public",
+          "\"public\".\"skills_history\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"skills_history_skill_id_fkey\" on \"skills_history\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"skills_history_skill_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"skills_history\"\nADD CONSTRAINT \"skills_history_skill_id_fkey\"\nFOREIGN KEY (\"skill_id\")\nREFERENCES \"public\".\"skills\" (\"id\")"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"skills_history_skill_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "skills_history_skill_id_fkey",
+          "public",
+          "\"public\".\"skills_history\"",
+          "f",
+          "[\"skill_id\"]",
+          "\"public\".\"skills\"",
+          "[\"id\"]",
+          "a",
+          "a"
+        ]
+      }
+    ]
+  }
+]

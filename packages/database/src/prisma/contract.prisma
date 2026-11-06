@@ -1,21 +1,91 @@
 // use prisma-8
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  username  String?
-  name      String?
-  posts     Post[]
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+model KanbanStatus {
+    id         Int      @id @default(autoincrement())
+    columnName String   @map("column_name")
+    position   Int
+    createdAt  DateTime @default(now()) @map("created_at")
+
+    @@map("kanban_status")
+    jobs Jobs[]
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  title     String
-  content   String?
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  Int
-  createdAt TimestamptzString @default(now())
-  updatedAt temporal.updatedAtString()
+model Jobs {
+    id              Int         @id @default(autoincrement())
+    kanbanStatusId  Int         @map("kanban_status_id")
+    jobLink         String      @map("job_link")
+    title           String
+    description     String
+    companyName     String      @map("company_name")
+    annotations     String      @map("annotations")
+    phone           String
+    email           String
+    rating          Int
+    metadata        json()
+    applicationDate DateTime    @map("application_date")
+    createdAt       DateTime    @default(now()) @map("created_at")
+
+    kanbanStatus KanbanStatus @relation(fields: [kanbanStatusId], references: [id])
+    jobsHistories JobsHistory[]
+    @@map("jobs")
+    jobSkills JobSkills[]
 }
+
+model JobsHistory {
+    id        Int      @id @default(autoincrement())
+    jobId     Int      @map("job_id")
+    field     String
+    oldValue  String   @map("old_value")
+    newValue  String   @map("new_value")
+    createdAt DateTime @default(now()) @map("created_at")
+
+    jobs Jobs @relation(fields: [jobId], references: [id])
+    @@map("jobs_history")
+}
+
+model JobSkills {
+    jobId Int 
+    skillId Int
+    relevance Int
+
+    job Jobs @relation(fields: [jobId], references: [id])
+    skill Skills @relation(fields: [skillId], references: [id])
+    @@id([jobId, skillId])
+    @@map("job_skills")
+}
+
+model Skills {
+    id          Int         @id @default(autoincrement())
+    groupId     Int         @map("group_id")
+    name        String
+    rating      Int
+    annotations String
+    createdAt   DateTime    @default(now()) @map("created_at")
+    skillsGroup SkillsGroup @relation(fields: [groupId], references: [id])
+
+    skillsHistories SkillsHistory[]
+    @@map("skills")
+    jobSkills JobSkills[]
+}
+
+model SkillsGroup {
+    id        Int      @id @default(autoincrement())
+    name      String
+    createdAt DateTime @default(now()) @map("created_at")
+
+    skills    Skills[]
+    @@map("skills_group")
+}
+
+model SkillsHistory {
+    id Int @id @default(autoincrement())
+    skillId Int @map("skill_id")
+    field String
+    oldValue String @map("old_value")
+    newValue String @map("new_value")
+    createdAt DateTime @default(now()) @map("created_at")
+
+    skills Skills @relation(fields: [skillId], references: [id])
+    @@map("skills_history")
+}
+
