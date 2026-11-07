@@ -179,8 +179,8 @@
               "metadata": {
                 "nullable": false,
                 "type": {
-                  "codecId": "pg/jsonb@1",
-                  "kind": "scalar"
+                  "kind": "valueObject",
+                  "name": "JobMetadata"
                 }
               },
               "phone": {
@@ -715,6 +715,61 @@
               },
               "namespaceId": "public",
               "table": "skills_history"
+            }
+          }
+        },
+        "valueObjects": {
+          "JobMetadata": {
+            "fields": {
+              "remote": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/bool@1",
+                  "kind": "scalar"
+                }
+              },
+              "salary": {
+                "nullable": false,
+                "type": {
+                  "kind": "valueObject",
+                  "name": "SalaryRange"
+                }
+              },
+              "seniority": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              },
+              "skills": {
+                "many": {
+                  "elementNullable": false
+                },
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/text@1",
+                  "kind": "scalar"
+                }
+              }
+            }
+          },
+          "SalaryRange": {
+            "fields": {
+              "max": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/float8@1",
+                  "kind": "scalar"
+                }
+              },
+              "min": {
+                "nullable": false,
+                "type": {
+                  "codecId": "pg/float8@1",
+                  "kind": "scalar"
+                }
+              }
             }
           }
         }

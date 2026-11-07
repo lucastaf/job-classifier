@@ -20,6 +20,7 @@ import type {
   NamespaceId,
   ProfileHashBase,
   StorageHashBase,
+  ValueObjectTypesFromDomain,
 } from '@prisma/orm-postgres/contract/types';
 
 export type StorageHash =
@@ -236,7 +237,24 @@ type DefaultLiteralValue<CodecId extends string, Encoded> = CodecId extends keyo
     : CodecTypes[CodecId]['json']
   : Encoded;
 type ParameterizedOutputTypeFunctions = PgParameterizedOutputTypes;
-
+type ValueObjectOutputTypes = ValueObjectTypesFromDomain<
+  ContractBase['domain']['namespaces'],
+  CodecTypes,
+  ParameterizedOutputTypeFunctions,
+  FieldTypeOverrides,
+  'output'
+>;
+type ValueObjectInputTypes = ValueObjectTypesFromDomain<
+  ContractBase['domain']['namespaces'],
+  CodecTypes,
+  ParameterizedOutputTypeFunctions,
+  FieldTypeOverrides,
+  'input'
+>;
+export type JobMetadataOutput = ValueObjectOutputTypes['public']['JobMetadata'];
+export type JobMetadataInput = ValueObjectInputTypes['public']['JobMetadata'];
+export type SalaryRangeOutput = ValueObjectOutputTypes['public']['SalaryRange'];
+export type SalaryRangeInput = ValueObjectInputTypes['public']['SalaryRange'];
 type FieldTypeOverrides = {};
 export type FieldOutputTypes = FieldTypesFromDomain<
   ContractBase['domain']['namespaces'],
@@ -909,7 +927,7 @@ type ContractBase = Omit<
               };
               readonly metadata: {
                 readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/jsonb@1' };
+                readonly type: { readonly kind: 'valueObject'; readonly name: 'JobMetadata' };
               };
               readonly phone: {
                 readonly nullable: false;
@@ -1303,6 +1321,41 @@ type ContractBase = Omit<
             };
           };
         };
+        readonly valueObjects: {
+          readonly JobMetadata: {
+            readonly fields: {
+              readonly remote: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+              };
+              readonly salary: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'valueObject'; readonly name: 'SalaryRange' };
+              };
+              readonly seniority: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+              };
+              readonly skills: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+                readonly many: { readonly elementNullable: false };
+              };
+            };
+          };
+          readonly SalaryRange: {
+            readonly fields: {
+              readonly max: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+              readonly min: {
+                readonly nullable: false;
+                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+              };
+            };
+          };
+        };
       };
     };
   };
@@ -1335,7 +1388,41 @@ type ContractBase = Omit<
   };
   readonly extensions: {};
   readonly meta: {};
-
+  readonly valueObjects: {
+    readonly JobMetadata: {
+      readonly fields: {
+        readonly remote: {
+          readonly nullable: false;
+          readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
+        };
+        readonly salary: {
+          readonly nullable: false;
+          readonly type: { readonly kind: 'valueObject'; readonly name: 'SalaryRange' };
+        };
+        readonly seniority: {
+          readonly nullable: false;
+          readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+        };
+        readonly skills: {
+          readonly nullable: false;
+          readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
+          readonly many: { readonly elementNullable: false };
+        };
+      };
+    };
+    readonly SalaryRange: {
+      readonly fields: {
+        readonly max: {
+          readonly nullable: false;
+          readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+        };
+        readonly min: {
+          readonly nullable: false;
+          readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/float8@1' };
+        };
+      };
+    };
+  };
   readonly profileHash: ProfileHash;
 };
 
