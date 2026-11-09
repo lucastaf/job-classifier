@@ -10,33 +10,43 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as JobsIndexRouteImport } from './routes/jobs/index'
+import { Route as JobsJobIdIndexRouteImport } from './routes/jobs/$jobId/index'
 
 const JobsIndexRoute = JobsIndexRouteImport.update({
   id: '/jobs/',
   path: '/jobs/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const JobsJobIdIndexRoute = JobsJobIdIndexRouteImport.update({
+  id: '/jobs/$jobId/',
+  path: '/jobs/$jobId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/jobs/': typeof JobsIndexRoute
+  '/jobs/$jobId/': typeof JobsJobIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/jobs': typeof JobsIndexRoute
+  '/jobs/$jobId': typeof JobsJobIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/jobs/': typeof JobsIndexRoute
+  '/jobs/$jobId/': typeof JobsJobIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/jobs/'
+  fullPaths: '/jobs/' | '/jobs/$jobId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/jobs'
-  id: '__root__' | '/jobs/'
+  to: '/jobs' | '/jobs/$jobId'
+  id: '__root__' | '/jobs/' | '/jobs/$jobId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   JobsIndexRoute: typeof JobsIndexRoute
+  JobsJobIdIndexRoute: typeof JobsJobIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +58,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/jobs/$jobId/': {
+      id: '/jobs/$jobId/'
+      path: '/jobs/$jobId'
+      fullPath: '/jobs/$jobId/'
+      preLoaderRoute: typeof JobsJobIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   JobsIndexRoute: JobsIndexRoute,
+  JobsJobIdIndexRoute: JobsJobIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
