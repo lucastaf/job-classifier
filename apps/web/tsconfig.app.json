@@ -17,14 +17,14 @@
     "jsx": "react-jsx",
 
     /* Linting */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    "strict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
   },
-  "include": ["src", "routes"],
+  "include": ["src", "routes"]
 }
