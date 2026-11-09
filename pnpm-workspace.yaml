@@ -4,3 +4,7 @@ packages:
 allowBuilds:
   esbuild: false
   workerd: false
+minimumReleaseAgeExclude:
+  - '@tanstack/router-generator@1.168.0'
+  - '@tanstack/router-plugin@1.169.0'
+  - '@tanstack/router-utils@1.163.0'
