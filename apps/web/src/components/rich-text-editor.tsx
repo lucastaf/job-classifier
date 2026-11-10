@@ -195,7 +195,7 @@ export function RichTextEditor() {
   };
 
   return (
-    <div className="w-full overflow-hidden rounded-xl border border-border bg-background">
+    <div className="w-full overflow-hidden rounded-xl border border-border bg-background h-full">
 
       {/* TOOLBAR */}
       <div className="
