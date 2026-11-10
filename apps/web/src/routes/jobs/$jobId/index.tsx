@@ -1,10 +1,10 @@
 import { Rating } from "@/components/reui/rating";
 import RichTextEditor from "@/components/rich-text-editor";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
-import { ExternalLink, Mail, Phone } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import JobSideMenu from "./_components/job-side-menu";
 
 export const Route = createFileRoute("/jobs/$jobId/")({
