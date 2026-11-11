@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build && tsc -b",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "api:generate": "orval --config ./orval.config.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.9.0",
@@ -57,6 +58,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.7",
     "globals": "^17.13.0",
+    "orval": "^8.47.0",
     "playwright": "latest",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.72.1",

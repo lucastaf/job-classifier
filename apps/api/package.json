@@ -11,7 +11,7 @@
     "deploy": "nest deploy",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "oxlint --type-aware src/ test/",
@@ -22,11 +22,15 @@
     "test:e2e": "vitest run --config ./vitest.config.e2e.ts"
   },
   "dependencies": {
+    "@job-classifier/db": "workspace:*",
     "@nestjs/common": "^12.0.1",
+    "@nestjs/config": "^12.1.1",
     "@nestjs/core": "^12.0.1",
     "@nestjs/platform-express": "^12.0.1",
+    "@nestjs/swagger": "^12.1.1",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "yaml": "^2.9.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^12.0.0",

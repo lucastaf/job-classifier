@@ -1,0 +1,34 @@
+openapi: 3.0.0
+paths:
+  /:
+    get:
+      operationId: AppController_getHello
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+        - App
+  /skills-group:
+    get:
+      operationId: SkillsGroupController_ListGroups
+      parameters: []
+      responses:
+        "200":
+          description: ""
+      tags:
+        - SkillsGroup
+info:
+  title: Job Classifier API
+  description: Documentação da API
+  version: "1.0"
+  contact: {}
+tags: []
+servers: []
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas: {}

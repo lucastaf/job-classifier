@@ -7,6 +7,7 @@ export default defineConfig({
   target: "node22.18",
   format: "esm",
   clean: true,
+  dts: true,
   hash: false,
   outputOptions: {
     codeSplitting: false,
