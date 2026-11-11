@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Put } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { SkillGroupService } from "./skills-group.service.js";
 import { SkillGroupCreateDto, SkillGroupUpdateDto } from "./dto/skill-group-edit.dto.js";
 import { ApiOkResponse } from "@nestjs/swagger";
@@ -27,12 +27,21 @@ export class SkillsGroupController {
         return this.service.CreateGroup(body);
     }
 
-    @Put("/:skill_id")
+    @Put("/:group_id")
     @ApiOkResponse({
         description: "Updates an skill group",
         type: SkillGroupItemDTO
     })
-    public UpdateGroup(@Body() body: SkillGroupUpdateDto, @Param('id') id: number) {
+    public UpdateGroup(@Body() body: SkillGroupUpdateDto, @Param('group_id') id: number) {
         return this.service.UpdateGroup(id, body);
+    }
+
+    @Delete("/:group_id")
+    @ApiOkResponse({
+        description: "Deletes an skill group",
+        type: SkillGroupItemDTO
+    })
+    public deleteGroup(@Param('group_id') id: number) {
+        return this.service.DeleteGroup(id);
     }
 }

@@ -12,7 +12,7 @@ export class SkillGroupItemDTO {
     name: string;
 
     @ApiProperty({
-        example: new Date()
+        example: new Date("2026-11-11T16:56:12.810Z")
     })
     createdAt: Date
 }

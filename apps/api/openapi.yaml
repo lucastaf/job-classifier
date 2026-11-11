@@ -42,11 +42,11 @@ paths:
                 $ref: "#/components/schemas/SkillGroupItemDTO"
       tags:
         - SkillsGroup
-  /skills-group/{skill_id}:
+  /skills-group/{group_id}:
     put:
       operationId: SkillsGroupController_UpdateGroup
       parameters:
-        - name: id
+        - name: group_id
           required: true
           in: path
           schema:
@@ -60,6 +60,23 @@ paths:
       responses:
         "200":
           description: Updates an skill group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkillGroupItemDTO"
+      tags:
+        - SkillsGroup
+    delete:
+      operationId: SkillsGroupController_deleteGroup
+      parameters:
+        - name: group_id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Deletes an skill group
           content:
             application/json:
               schema:

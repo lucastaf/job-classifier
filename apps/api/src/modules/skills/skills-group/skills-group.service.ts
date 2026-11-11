@@ -26,4 +26,10 @@ export class SkillGroupService {
             .update({ name: data.name });
 
     }
+
+    public async DeleteGroup(id: number): Promise<SkillGroupItemDTO | null> {
+        return await this.db.client.SkillsGroup
+            .where({ id: id })
+            .delete();
+    }
 }
