@@ -15,7 +15,55 @@ paths:
       parameters: []
       responses:
         "200":
-          description: ""
+          description: List available skill groups
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SkillGroupItemDTO"
+      tags:
+        - SkillsGroup
+    post:
+      operationId: SkillsGroupController_CreateGroup
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkillGroupCreateDto"
+      responses:
+        "200":
+          description: Creates a new skill group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkillGroupItemDTO"
+      tags:
+        - SkillsGroup
+  /skills-group/{skill_id}:
+    put:
+      operationId: SkillsGroupController_UpdateGroup
+      parameters:
+        - name: id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkillGroupUpdateDto"
+      responses:
+        "200":
+          description: Updates an skill group
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkillGroupItemDTO"
       tags:
         - SkillsGroup
 info:
@@ -31,4 +79,35 @@ components:
       scheme: bearer
       bearerFormat: JWT
       type: http
-  schemas: {}
+  schemas:
+    SkillGroupItemDTO:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        name:
+          type: string
+          example: Programming language
+        createdAt:
+          format: date-time
+          type: string
+          example: 2026-11-11T16:56:12.810Z
+      required:
+        - id
+        - name
+        - createdAt
+    SkillGroupCreateDto:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
+    SkillGroupUpdateDto:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+        - name
