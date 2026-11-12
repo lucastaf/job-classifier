@@ -406,6 +406,7 @@ components:
       properties:
         name:
           type: string
+          example: Programming language
       required:
         - name
     SkillGroupUpdateDto:
@@ -413,6 +414,7 @@ components:
       properties:
         name:
           type: string
+          example: Programming language
       required:
         - name
     KanbanItemOutputDTO:

@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DatabaseService } from "../../../infra/db/database.service.js";
-import { SkillGroupItemDTO } from "./dto/skill-group-list.dto.js";
-import { SkillGroupCreateDto, SkillGroupUpdateDto } from "./dto/skill-group-edit.dto.js";
+import { SkillGroupCreateDto, SkillGroupItemDTO, SkillGroupUpdateDto } from "./dto/skill-group-item.dto.js";
 
 @Injectable()
 export class SkillGroupService {

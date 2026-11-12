@@ -1,8 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { SkillGroupService } from "./skills-group.service.js";
-import { SkillGroupCreateDto, SkillGroupUpdateDto } from "./dto/skill-group-edit.dto.js";
+import { SkillGroupCreateDto, SkillGroupItemDTO, SkillGroupUpdateDto } from "./dto/skill-group-item.dto.js";
 import { ApiOkResponse } from "@nestjs/swagger";
-import { SkillGroupItemDTO } from "./dto/skill-group-list.dto.js";
 
 @Controller("/skills-group")
 export class SkillsGroupController {
