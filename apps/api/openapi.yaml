@@ -9,6 +9,97 @@ paths:
           description: ""
       tags:
         - App
+  /skills:
+    get:
+      operationId: SkillsController_ListSkills
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SkillsListDTO"
+      tags:
+        - Skills
+    post:
+      operationId: SkillsController_CreateSkill
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkillCreateInputDTO"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkillsListDTO"
+      tags:
+        - Skills
+  /skills/{skill_id}:
+    get:
+      operationId: SkillsController_GetSkillById
+      parameters:
+        - name: skill_id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkillItemCompleteDTO"
+      tags:
+        - Skills
+    patch:
+      operationId: SkillsController_UpdateSkill
+      parameters:
+        - name: skill_id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SkillUpdateInputDTO"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkillsListDTO"
+      tags:
+        - Skills
+    delete:
+      operationId: SkillsController_DeleteSkill
+      parameters:
+        - name: :skill_id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SkillDeleteOutputDTO"
+      tags:
+        - Skills
   /skills-group:
     get:
       operationId: SkillsGroupController_ListGroups
@@ -97,6 +188,118 @@ components:
       bearerFormat: JWT
       type: http
   schemas:
+    SkillsListDTO:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        createdAt:
+          format: date-time
+          type: string
+          example: 2026-11-11T16:56:12.810Z
+        name:
+          type: string
+          example: Javascript
+        rating:
+          type: number
+          example: 5
+        skillsGroup:
+          type: object
+          example:
+            id: 1
+            name: Programming language
+      required:
+        - id
+        - createdAt
+        - name
+        - rating
+        - skillsGroup
+    SkillItemCompleteDTO:
+      type: object
+      properties:
+        annotations:
+          type: string
+        createdAt:
+          type: object
+        id:
+          type: number
+        name:
+          type: string
+        rating:
+          type: number
+        skillsGroup:
+          type: object
+        jobSkills:
+          type: array
+          items:
+            type: string
+        skillsHistories:
+          type: array
+          items:
+            type: string
+      required:
+        - annotations
+        - createdAt
+        - id
+        - name
+        - rating
+        - skillsGroup
+        - jobSkills
+        - skillsHistories
+    SkillCreateInputDTO:
+      type: object
+      properties:
+        annotations:
+          type: string
+        name:
+          type: string
+        groupId:
+          type: number
+        rating:
+          type: number
+      required:
+        - annotations
+        - name
+        - groupId
+        - rating
+    SkillUpdateInputDTO:
+      type: object
+      properties:
+        annotations:
+          type: string
+        name:
+          type: string
+        groupId:
+          type: number
+        rating:
+          type: number
+      required:
+        - annotations
+        - name
+        - groupId
+        - rating
+    SkillDeleteOutputDTO:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+        createdAt:
+          format: date-time
+          type: string
+          example: 2026-11-11T16:56:12.810Z
+        name:
+          type: string
+          example: Javascript
+        rating:
+          type: number
+          example: 5
+      required:
+        - id
+        - createdAt
+        - name
+        - rating
     SkillGroupItemDTO:
       type: object
       properties:

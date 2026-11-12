@@ -4,9 +4,11 @@ import { writeFileSync } from 'node:fs';
 import { stringify } from 'yaml';
 
 import { AppModule } from './app.module.js';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.useGlobalPipes(new ValidationPipe());
   
     const config = new DocumentBuilder()
     .setTitle('Job Classifier API')
