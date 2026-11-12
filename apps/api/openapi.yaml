@@ -174,6 +174,86 @@ paths:
                 $ref: "#/components/schemas/SkillGroupItemDTO"
       tags:
         - SkillsGroup
+  /kanban:
+    get:
+      operationId: KanbanController_listColumns
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/KanbanItemOutputDTO"
+      tags:
+        - Kanban
+    post:
+      operationId: KanbanController_createColumn
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KanbanCreateInputDTO"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KanbanItemOutputDTO"
+      tags:
+        - Kanban
+  /kanban/{column_id}:
+    put:
+      operationId: KanbanController_updateColumn
+      parameters:
+        - name: column_id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/KanbanUpdateInputDTO"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                nullable: true
+                type: object
+                allOf:
+                  - $ref: "#/components/schemas/KanbanItemOutputDTO"
+      tags:
+        - Kanban
+    delete:
+      operationId: KanbanController_deleteColumn
+      parameters:
+        - name: column_id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                nullable: true
+                type: object
+                allOf:
+                  - $ref: "#/components/schemas/KanbanItemOutputDTO"
+      tags:
+        - Kanban
 info:
   title: Job Classifier API
   description: Documentação da API
@@ -335,3 +415,37 @@ components:
           type: string
       required:
         - name
+    KanbanItemOutputDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        position:
+          type: number
+        createdAt:
+          format: date-time
+          type: string
+        id:
+          type: number
+      required:
+        - columnName
+        - position
+        - createdAt
+        - id
+    KanbanUpdateInputDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        position:
+          type: number
+    KanbanCreateInputDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        position:
+          type: number
+      required:
+        - columnName
+        - position

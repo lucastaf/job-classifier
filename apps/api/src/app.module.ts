@@ -3,12 +3,15 @@ import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { SkillsModule } from './modules/skills/skills.module.js';
 import { ConfigModule } from "@nestjs/config";
+import { KanbanModule } from './modules/kanban/kanban.module.js';
 
 @Module({
-  imports: [SkillsModule,
+  imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    SkillsModule,
+    KanbanModule
   ],
   controllers: [AppController],
   providers: [AppService],
