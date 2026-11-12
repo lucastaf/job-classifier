@@ -21,7 +21,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/SkillsListDTO"
+                  $ref: "#/components/schemas/SkillListItemDTO"
       tags:
         - Skills
     post:
@@ -39,7 +39,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SkillsListDTO"
+                $ref: "#/components/schemas/SkillListItemDTO"
       tags:
         - Skills
   /skills/{skill_id}:
@@ -57,7 +57,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SkillItemCompleteDTO"
+                $ref: "#/components/schemas/SkillItemByIDOutputDTO"
       tags:
         - Skills
     patch:
@@ -80,7 +80,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SkillsListDTO"
+                $ref: "#/components/schemas/SkillListItemDTO"
       tags:
         - Skills
     delete:
@@ -188,48 +188,53 @@ components:
       bearerFormat: JWT
       type: http
   schemas:
-    SkillsListDTO:
+    SkillListItemDTO:
       type: object
       properties:
-        id:
-          type: number
-          example: 1
         createdAt:
           format: date-time
           type: string
-          example: 2026-11-11T16:56:12.810Z
+          example: &a1 2026-11-11T16:56:12.810Z
         name:
           type: string
           example: Javascript
         rating:
           type: number
           example: 5
+        id:
+          type: number
         skillsGroup:
           type: object
-          example:
+          example: &a2
             id: 1
             name: Programming language
       required:
-        - id
         - createdAt
         - name
         - rating
+        - id
         - skillsGroup
-    SkillItemCompleteDTO:
+    SkillItemByIDOutputDTO:
       type: object
       properties:
         annotations:
           type: string
+          example: Cool language
         createdAt:
-          type: object
-        id:
-          type: number
+          format: date-time
+          type: string
+          example: *a1
         name:
           type: string
+          example: Javascript
         rating:
+          type: number
+          example: 5
+        id:
           type: number
         skillsGroup:
           type: object
+          example: *a2
         jobSkills:
           type: array
           items:
@@ -241,65 +246,64 @@ components:
       required:
         - annotations
         - createdAt
-        - id
         - name
         - rating
+        - id
         - skillsGroup
         - jobSkills
         - skillsHistories
     SkillCreateInputDTO:
       type: object
       properties:
-        annotations:
-          type: string
-        name:
-          type: string
         groupId:
           type: number
-        rating:
-          type: number
-      required:
-        - annotations
-        - name
-        - groupId
-        - rating
-    SkillUpdateInputDTO:
-      type: object
-      properties:
-        annotations:
-          type: string
-        name:
-          type: string
-        groupId:
-          type: number
-        rating:
-          type: number
-      required:
-        - annotations
-        - name
-        - groupId
-        - rating
-    SkillDeleteOutputDTO:
-      type: object
-      properties:
-        id:
-          type: number
-          example: 1
-        createdAt:
-          format: date-time
-          type: string
-          example: 2026-11-11T16:56:12.810Z
         name:
           type: string
           example: Javascript
         rating:
           type: number
           example: 5
+        annotations:
+          type: string
+          example: Cool language
       required:
-        - id
+        - groupId
+        - name
+        - rating
+    SkillUpdateInputDTO:
+      type: object
+      properties:
+        annotations:
+          type: string
+          example: Cool language
+        groupId:
+          type: number
+        name:
+          type: string
+          example: Javascript
+        rating:
+          type: number
+          example: 5
+    SkillDeleteOutputDTO:
+      type: object
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+          example: *a1
+        name:
+          type: string
+          example: Javascript
+        rating:
+          type: number
+          example: 5
+        id:
+          type: number
+      required:
         - createdAt
         - name
         - rating
+        - id
     SkillGroupItemDTO:
       type: object
       properties:

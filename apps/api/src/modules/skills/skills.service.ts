@@ -1,16 +1,12 @@
 import { DatabaseService } from "@/infra/db/database.service.js";
 import { Injectable } from "@nestjs/common";
-import { SkillsListDTO } from "./dto/skill-list.dto.js";
-import { SkillItemCompleteDTO } from "./dto/skill-item-complete.dto.js";
-import { SkillCreateInputDTO, SkillCreateOutputDTO } from "./dto/skill-create.dto.js";
-import { SkillUpdateInputDTO, SkillUpdateOutputDTO } from "./dto/skill-update.dto.js";
-import { SkillDeleteOutputDTO } from "./dto/skill-delete.dto.js";
+import { SkillCreateInputDTO, SkillCreateOutputDTO, SkillDeleteOutputDTO, SkillItemByIDOutputDTO, SkillListItemDTO, SkillUpdateInputDTO, SkillUpdateOutputDTO } from "./dto/skill-item.dto.js";
 
 @Injectable()
 export class SkillsService {
     public constructor(private db: DatabaseService) { }
 
-    public async ListSkills(): Promise<SkillsListDTO[]> {
+    public async ListSkills(): Promise<SkillListItemDTO[]> {
         return this.db.client.Skills
             .select("id", "name", "rating", "createdAt")
             .include("skillsGroup", (skillGroup) => (
@@ -19,7 +15,7 @@ export class SkillsService {
             .all();
     }
 
-    public async GetSkillByID(id: number): Promise<SkillItemCompleteDTO | null> {
+    public async GetSkillByID(id: number): Promise<SkillItemByIDOutputDTO | null> {
         return this.db.client.Skills
             .where({ id: id })
             .select("id", "name", "rating", "createdAt", "annotations")

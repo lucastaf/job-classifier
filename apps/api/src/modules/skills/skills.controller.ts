@@ -1,11 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { SkillsService } from "./skills.service.js";
 import { ApiOkResponse } from "@nestjs/swagger";
-import { SkillsListDTO } from "./dto/skill-list.dto.js";
-import { SkillItemCompleteDTO } from "./dto/skill-item-complete.dto.js";
-import { SkillUpdateInputDTO } from "./dto/skill-update.dto.js";
-import { SkillCreateInputDTO } from "./dto/skill-create.dto.js";
-import { SkillDeleteOutputDTO } from "./dto/skill-delete.dto.js";
+import { SkillCreateInputDTO, SkillDeleteOutputDTO, SkillItemByIDOutputDTO, SkillListItemDTO, SkillUpdateInputDTO } from "./dto/skill-item.dto.js";
 
 @Controller("/skills")
 export class SkillsController {
@@ -13,7 +9,7 @@ export class SkillsController {
 
     @Get("/")
     @ApiOkResponse({
-        type: SkillsListDTO,
+        type: SkillListItemDTO,
         isArray: true
     })
     public ListSkills(){
@@ -22,7 +18,7 @@ export class SkillsController {
 
     @Get("/:skill_id")
     @ApiOkResponse({
-        type: SkillItemCompleteDTO 
+        type: SkillItemByIDOutputDTO 
     })
     public GetSkillById(@Param("skill_id") id: number) {
         return this.service.GetSkillByID(id);
@@ -30,7 +26,7 @@ export class SkillsController {
 
     @Post("/")
     @ApiOkResponse({
-        type: SkillsListDTO
+        type: SkillListItemDTO
     })
     public CreateSkill(@Body() body: SkillCreateInputDTO){
         return this.service.CreateSkill(body);
@@ -38,7 +34,7 @@ export class SkillsController {
 
     @Patch("/:skill_id")
     @ApiOkResponse({
-        type: SkillsListDTO
+        type: SkillListItemDTO
     })
     public UpdateSkill(@Param("skill_id") id: number, @Body() body: SkillUpdateInputDTO){
         return this.service.UpdateSkill(id, body);
