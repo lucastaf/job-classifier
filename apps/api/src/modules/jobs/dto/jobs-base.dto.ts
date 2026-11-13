@@ -1,37 +1,46 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsInt, IsNumber, IsString, Max, Min } from "class-validator";
+import { Type } from "class-transformer";
+import { IsDate, IsInt, IsNumber, IsString, Max, Min } from "class-validator";
 
 export class JobsBaseDTO {
-    @ApiProperty()
+    @ApiProperty({ example: "Full stack developer" })
     title: string;
-    @ApiProperty()
+    @ApiProperty({ example: "Software company" })
     @IsString()
-    companyName: string;
+    companyName?: string | null;
 
     @ApiProperty()
     @IsString()
     annotations: string;
-    @ApiProperty()
+
+    @ApiProperty({
+        example: `
+            We are looking for a Full Stack Developer to build and maintain web applications. 
+            You will work with the team to create user-friendly features using modern frontend and backend technologies. 
+            Experience with TypeScript, React, Node.js, and SQL is a plus.
+        `
+    })
     @IsString()
     description: string;
 
-    @ApiProperty()
+    @ApiProperty({ example: "https://linkedin.com" })
     @IsString()
     jobLink: string;
-    @ApiProperty()
+    @ApiProperty({ example: 5 })
     @IsInt()
     @Min(0)
     @Max(5)
     rating: number;
 
-    @ApiProperty()
+    @ApiProperty({ example: "contact@company.com" })
     @IsString()
-    email: string;
-    @ApiProperty()
-    phone: string;
+    email?: string | null;
+    @ApiProperty({ example: "9999999999" })
+    phone?: string | null;
 
-    @ApiProperty()
-    @IsDateString()
+    @ApiProperty({ example: "2024-08-17T14:32:10.000Z" })
+    @Type(() => Date)
+    @IsDate()
     applicationDate: Date;
 
     @ApiProperty()
@@ -44,12 +53,27 @@ export class JobsBaseDTO {
     @ApiProperty()
     createdAt: Date;
     @ApiProperty()
-    metadata: {
-        suggestedSkills: string[];
-    };
+    metadata?: {
+        suggestedSkills: readonly string[];
+    } | null;
     @ApiProperty()
     kanbanStatus: {
         id: number;
         columnName: string;
     };
+
+    @ApiProperty()
+    jobSkills: {
+        jobId: number;
+        relevance: number;
+        skillId: number;
+        skill: {
+            annotations: string;
+            createdAt: any;
+            id: number;
+            rating: number;
+            groupId: number;
+            name: string;
+        };
+    }[];
 }

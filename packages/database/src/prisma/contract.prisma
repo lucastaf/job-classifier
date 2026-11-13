@@ -24,12 +24,12 @@ model Jobs {
     jobLink         String      @map("job_link")
     title           String
     description     String
-    companyName     String      @map("company_name")
-    annotations     String      @map("annotations")
-    phone           String
-    email           String
+    companyName     String?      @map("company_name")
+    annotations     String       @map("annotations")
+    phone           String?
+    email           String?
     rating          Int
-    metadata        JobMetadata
+    metadata        JobMetadata?
     applicationDate DateTime    @map("application_date")
     createdAt       DateTime    @default(now()) @map("created_at")
 
@@ -48,7 +48,7 @@ model JobsHistory {
     newValue  String   @map("new_value")
     createdAt DateTime @default(now()) @map("created_at")
 
-    jobs Jobs @relation(fields: [jobId], references: [id])
+    jobs Jobs @relation(fields: [jobId], references: [id], onDelete: Cascade)
 
     @@map("jobs_history")
 }
@@ -58,8 +58,8 @@ model JobSkills {
     skillId   Int
     relevance Int
 
-    job   Jobs   @relation(fields: [jobId], references: [id])
-    skill Skills @relation(fields: [skillId], references: [id])
+    job   Jobs   @relation(fields: [jobId], references: [id], onDelete: Cascade)
+    skill Skills @relation(fields: [skillId], references: [id], onDelete: Cascade)
 
     @@id([jobId, skillId])
     @@map("job_skills")
@@ -98,7 +98,7 @@ model SkillsHistory {
     newValue  String   @map("new_value")
     createdAt DateTime @default(now()) @map("created_at")
 
-    skills Skills @relation(fields: [skillId], references: [id])
+    skills Skills @relation(fields: [skillId], references: [id], onDelete: Cascade)
 
     @@map("skills_history")
 }

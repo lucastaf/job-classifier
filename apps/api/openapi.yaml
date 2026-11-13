@@ -254,6 +254,103 @@ paths:
                   - $ref: "#/components/schemas/KanbanItemOutputDTO"
       tags:
         - Kanban
+  /jobs:
+    get:
+      operationId: JobsController_ListJobs
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/JobsListItemDTO"
+      tags:
+        - Jobs
+    post:
+      operationId: JobsController_CreateJob
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobCreateInputDTO"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobItemOutputDTO"
+      tags:
+        - Jobs
+  /jobs/{job_id}:
+    get:
+      operationId: JobsController_GetJobsByID
+      parameters:
+        - name: job_id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobItemByIdDTO"
+      tags:
+        - Jobs
+    patch:
+      operationId: JobsController_UpdateJob
+      parameters:
+        - name: job_id
+          required: true
+          in: path
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobUpdateInputDTO"
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                nullable: true
+                type: object
+                allOf:
+                  - $ref: "#/components/schemas/JobItemOutputDTO"
+      tags:
+        - Jobs
+    delete:
+      operationId: JobsController_DeleteJob
+      parameters:
+        - name: job_id
+          required: true
+          in: path
+          schema:
+            type: number
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                nullable: true
+                type: object
+                allOf:
+                  - $ref: "#/components/schemas/JobItemOutputDTO"
+      tags:
+        - Jobs
 info:
   title: Job Classifier API
   description: Documentação da API
@@ -451,3 +548,248 @@ components:
       required:
         - columnName
         - position
+    JobsListItemDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Full stack developer
+        companyName:
+          type: object
+          example: Software company
+        applicationDate:
+          format: date-time
+          type: string
+          example: 2024-08-17T14:32:10.000Z
+        id:
+          type: number
+        kanbanStatus:
+          type: object
+      required:
+        - title
+        - companyName
+        - applicationDate
+        - id
+        - kanbanStatus
+    JobItemByIdDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Full stack developer
+        companyName:
+          type: object
+          example: Software company
+        annotations:
+          type: string
+        description:
+          type: string
+          example: "
+
+            \            We are looking for a Full Stack Developer to build and
+            maintain web applications.\ 
+
+            \            You will work with the team to create user-friendly
+            features using modern frontend and backend technologies.\ 
+
+            \            Experience with TypeScript, React, Node.js, and SQL is
+            a plus.
+
+            \        "
+        jobLink:
+          type: string
+          example: https://linkedin.com
+        rating:
+          type: number
+          example: 5
+        email:
+          type: object
+          example: contact@company.com
+        phone:
+          type: object
+          example: "9999999999"
+        applicationDate:
+          format: date-time
+          type: string
+          example: 2024-08-17T14:32:10.000Z
+        kanbanStatusId:
+          type: number
+        id:
+          type: number
+        createdAt:
+          format: date-time
+          type: string
+        metadata:
+          type: object
+        kanbanStatus:
+          type: object
+        jobSkills:
+          type: array
+          items:
+            type: string
+      required:
+        - title
+        - companyName
+        - annotations
+        - description
+        - jobLink
+        - rating
+        - email
+        - phone
+        - applicationDate
+        - kanbanStatusId
+        - id
+        - createdAt
+        - metadata
+        - kanbanStatus
+        - jobSkills
+    JobCreateInputDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Full stack developer
+        description:
+          type: string
+          example: "
+
+            \            We are looking for a Full Stack Developer to build and
+            maintain web applications.\ 
+
+            \            You will work with the team to create user-friendly
+            features using modern frontend and backend technologies.\ 
+
+            \            Experience with TypeScript, React, Node.js, and SQL is
+            a plus.
+
+            \        "
+        jobLink:
+          type: string
+          example: https://linkedin.com
+        rating:
+          type: number
+          example: 5
+        applicationDate:
+          format: date-time
+          type: string
+          example: 2024-08-17T14:32:10.000Z
+        companyName:
+          type: object
+          example: Software company
+        email:
+          type: object
+          example: contact@company.com
+        phone:
+          type: object
+          example: "9999999999"
+      required:
+        - title
+        - description
+        - jobLink
+        - rating
+        - applicationDate
+    JobItemOutputDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Full stack developer
+        companyName:
+          type: object
+          example: Software company
+        annotations:
+          type: string
+        description:
+          type: string
+          example: "
+
+            \            We are looking for a Full Stack Developer to build and
+            maintain web applications.\ 
+
+            \            You will work with the team to create user-friendly
+            features using modern frontend and backend technologies.\ 
+
+            \            Experience with TypeScript, React, Node.js, and SQL is
+            a plus.
+
+            \        "
+        jobLink:
+          type: string
+          example: https://linkedin.com
+        rating:
+          type: number
+          example: 5
+        email:
+          type: object
+          example: contact@company.com
+        phone:
+          type: object
+          example: "9999999999"
+        applicationDate:
+          format: date-time
+          type: string
+          example: 2024-08-17T14:32:10.000Z
+        kanbanStatusId:
+          type: number
+        id:
+          type: number
+        createdAt:
+          format: date-time
+          type: string
+        metadata:
+          type: object
+      required:
+        - title
+        - companyName
+        - annotations
+        - description
+        - jobLink
+        - rating
+        - email
+        - phone
+        - applicationDate
+        - kanbanStatusId
+        - id
+        - createdAt
+        - metadata
+    JobUpdateInputDTO:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Full stack developer
+        companyName:
+          type: object
+          example: Software company
+        description:
+          type: string
+          example: "
+
+            \            We are looking for a Full Stack Developer to build and
+            maintain web applications.\ 
+
+            \            You will work with the team to create user-friendly
+            features using modern frontend and backend technologies.\ 
+
+            \            Experience with TypeScript, React, Node.js, and SQL is
+            a plus.
+
+            \        "
+        jobLink:
+          type: string
+          example: https://linkedin.com
+        rating:
+          type: number
+          example: 5
+        email:
+          type: object
+          example: contact@company.com
+        phone:
+          type: object
+          example: "9999999999"
+        applicationDate:
+          format: date-time
+          type: string
+          example: 2024-08-17T14:32:10.000Z
+        kanbanStatusId:
+          type: number

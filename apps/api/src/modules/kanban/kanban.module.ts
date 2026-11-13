@@ -7,5 +7,6 @@ import { DatabaseModule } from "@/infra/db/database.module.js";
     imports: [DatabaseModule],
     controllers: [KanbanController],
     providers: [KanbanService],
+    exports: [KanbanService]
 })
 export class KanbanModule { }

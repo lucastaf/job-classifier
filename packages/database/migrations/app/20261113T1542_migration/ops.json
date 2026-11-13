@@ -1,0 +1,598 @@
+[
+  {
+    "id": "dropConstraint.job_skills.job_skills_jobId_fkey",
+    "label": "Drop constraint \"job_skills_jobId_fkey\" on \"job_skills\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "job_skills_jobId_fkey",
+        "table": "job_skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"job_skills_jobId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "job_skills_jobId_fkey",
+          "public",
+          "\"public\".\"job_skills\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"job_skills_jobId_fkey\" on \"job_skills\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop constraint \"job_skills_jobId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"job_skills\" DROP CONSTRAINT \"job_skills_jobId_fkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"job_skills_jobId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "job_skills_jobId_fkey",
+          "public",
+          "\"public\".\"job_skills\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"job_skills_jobId_fkey\" on \"job_skills\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropConstraint.job_skills.job_skills_skillId_fkey",
+    "label": "Drop constraint \"job_skills_skillId_fkey\" on \"job_skills\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "job_skills_skillId_fkey",
+        "table": "job_skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"job_skills_skillId_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "job_skills_skillId_fkey",
+          "public",
+          "\"public\".\"job_skills\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"job_skills_skillId_fkey\" on \"job_skills\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop constraint \"job_skills_skillId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"job_skills\" DROP CONSTRAINT \"job_skills_skillId_fkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"job_skills_skillId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "job_skills_skillId_fkey",
+          "public",
+          "\"public\".\"job_skills\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"job_skills_skillId_fkey\" on \"job_skills\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropConstraint.jobs_history.jobs_history_job_id_fkey",
+    "label": "Drop constraint \"jobs_history_job_id_fkey\" on \"jobs_history\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "jobs_history_job_id_fkey",
+        "table": "jobs_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"jobs_history_job_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "jobs_history_job_id_fkey",
+          "public",
+          "\"public\".\"jobs_history\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"jobs_history_job_id_fkey\" on \"jobs_history\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop constraint \"jobs_history_job_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"jobs_history\" DROP CONSTRAINT \"jobs_history_job_id_fkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"jobs_history_job_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "jobs_history_job_id_fkey",
+          "public",
+          "\"public\".\"jobs_history\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"jobs_history_job_id_fkey\" on \"jobs_history\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "dropConstraint.skills_history.skills_history_skill_id_fkey",
+    "label": "Drop constraint \"skills_history_skill_id_fkey\" on \"skills_history\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "skills_history_skill_id_fkey",
+        "table": "skills_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure constraint \"skills_history_skill_id_fkey\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "skills_history_skill_id_fkey",
+          "public",
+          "\"public\".\"skills_history\""
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "constraint \"skills_history_skill_id_fkey\" on \"skills_history\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop constraint \"skills_history_skill_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"skills_history\" DROP CONSTRAINT \"skills_history_skill_id_fkey\""
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify constraint \"skills_history_skill_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "skills_history_skill_id_fkey",
+          "public",
+          "\"public\".\"skills_history\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "constraint \"skills_history_skill_id_fkey\" on \"skills_history\""
+        }
+      }
+    ]
+  },
+  {
+    "id": "alterNullability.dropNotNull.jobs.company_name",
+    "label": "Drop NOT NULL on \"jobs\".\"company_name\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "company_name",
+        "table": "jobs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"company_name\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "jobs",
+          "company_name"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"company_name\" on \"jobs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop NOT NULL on \"company_name\"",
+        "sql": "ALTER TABLE \"public\".\"jobs\" ALTER COLUMN \"company_name\" DROP NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"company_name\" is nullable",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "jobs",
+          "company_name",
+          "YES"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alterNullability.dropNotNull.jobs.email",
+    "label": "Drop NOT NULL on \"jobs\".\"email\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "email",
+        "table": "jobs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"email\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "jobs",
+          "email"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"email\" on \"jobs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop NOT NULL on \"email\"",
+        "sql": "ALTER TABLE \"public\".\"jobs\" ALTER COLUMN \"email\" DROP NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"email\" is nullable",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "jobs",
+          "email",
+          "YES"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alterNullability.dropNotNull.jobs.metadata",
+    "label": "Drop NOT NULL on \"jobs\".\"metadata\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "metadata",
+        "table": "jobs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"metadata\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "jobs",
+          "metadata"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"metadata\" on \"jobs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop NOT NULL on \"metadata\"",
+        "sql": "ALTER TABLE \"public\".\"jobs\" ALTER COLUMN \"metadata\" DROP NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"metadata\" is nullable",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "jobs",
+          "metadata",
+          "YES"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "alterNullability.dropNotNull.jobs.phone",
+    "label": "Drop NOT NULL on \"jobs\".\"phone\"",
+    "operationClass": "widening",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "column",
+        "name": "phone",
+        "table": "jobs"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure column \"phone\" exists",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3)) AS \"result\"",
+        "params": [
+          "public",
+          "jobs",
+          "phone"
+        ],
+        "expectation": {
+          "expects": "present",
+          "object": "column \"phone\" on \"jobs\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "drop NOT NULL on \"phone\"",
+        "sql": "ALTER TABLE \"public\".\"jobs\" ALTER COLUMN \"phone\" DROP NOT NULL"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify column \"phone\" is nullable",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"information_schema\".\"columns\" WHERE (\"table_schema\" = $1 AND \"table_name\" = $2 AND \"column_name\" = $3 AND \"is_nullable\" = $4)) AS \"result\"",
+        "params": [
+          "public",
+          "jobs",
+          "phone",
+          "YES"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.job_skills.job_skills_jobId_fkey",
+    "label": "Add foreign key \"job_skills_jobId_fkey\" on \"job_skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "job_skills_jobId_fkey",
+        "table": "job_skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"job_skills_jobId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "job_skills_jobId_fkey",
+          "public",
+          "\"public\".\"job_skills\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"job_skills_jobId_fkey\" on \"job_skills\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"job_skills_jobId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"job_skills\"\nADD CONSTRAINT \"job_skills_jobId_fkey\"\nFOREIGN KEY (\"jobId\")\nREFERENCES \"public\".\"jobs\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"job_skills_jobId_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "job_skills_jobId_fkey",
+          "public",
+          "\"public\".\"job_skills\"",
+          "f",
+          "[\"jobId\"]",
+          "\"public\".\"jobs\"",
+          "[\"id\"]",
+          "c",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.job_skills.job_skills_skillId_fkey",
+    "label": "Add foreign key \"job_skills_skillId_fkey\" on \"job_skills\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "job_skills_skillId_fkey",
+        "table": "job_skills"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"job_skills_skillId_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "job_skills_skillId_fkey",
+          "public",
+          "\"public\".\"job_skills\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"job_skills_skillId_fkey\" on \"job_skills\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"job_skills_skillId_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"job_skills\"\nADD CONSTRAINT \"job_skills_skillId_fkey\"\nFOREIGN KEY (\"skillId\")\nREFERENCES \"public\".\"skills\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"job_skills_skillId_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "job_skills_skillId_fkey",
+          "public",
+          "\"public\".\"job_skills\"",
+          "f",
+          "[\"skillId\"]",
+          "\"public\".\"skills\"",
+          "[\"id\"]",
+          "c",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.jobs_history.jobs_history_job_id_fkey",
+    "label": "Add foreign key \"jobs_history_job_id_fkey\" on \"jobs_history\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "jobs_history_job_id_fkey",
+        "table": "jobs_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"jobs_history_job_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "jobs_history_job_id_fkey",
+          "public",
+          "\"public\".\"jobs_history\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"jobs_history_job_id_fkey\" on \"jobs_history\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"jobs_history_job_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"jobs_history\"\nADD CONSTRAINT \"jobs_history_job_id_fkey\"\nFOREIGN KEY (\"job_id\")\nREFERENCES \"public\".\"jobs\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"jobs_history_job_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "jobs_history_job_id_fkey",
+          "public",
+          "\"public\".\"jobs_history\"",
+          "f",
+          "[\"job_id\"]",
+          "\"public\".\"jobs\"",
+          "[\"id\"]",
+          "c",
+          "a"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "foreignKey.skills_history.skills_history_skill_id_fkey",
+    "label": "Add foreign key \"skills_history_skill_id_fkey\" on \"skills_history\"",
+    "operationClass": "additive",
+    "target": {
+      "id": "postgres",
+      "details": {
+        "schema": "public",
+        "objectType": "foreignKey",
+        "name": "skills_history_skill_id_fkey",
+        "table": "skills_history"
+      }
+    },
+    "precheck": [
+      {
+        "description": "ensure FK \"skills_history_skill_id_fkey\" does not exist",
+        "sql": "SELECT NOT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3))) AS \"result\"",
+        "params": [
+          "skills_history_skill_id_fkey",
+          "public",
+          "\"public\".\"skills_history\""
+        ],
+        "expectation": {
+          "expects": "absent",
+          "object": "FK \"skills_history_skill_id_fkey\" on \"skills_history\""
+        }
+      }
+    ],
+    "execute": [
+      {
+        "description": "add FK \"skills_history_skill_id_fkey\"",
+        "sql": "ALTER TABLE \"public\".\"skills_history\"\nADD CONSTRAINT \"skills_history_skill_id_fkey\"\nFOREIGN KEY (\"skill_id\")\nREFERENCES \"public\".\"skills\" (\"id\")\nON DELETE CASCADE"
+      }
+    ],
+    "postcheck": [
+      {
+        "description": "verify FK \"skills_history_skill_id_fkey\" exists with the planned columns, referenced table and actions",
+        "sql": "SELECT EXISTS (SELECT 1 AS \"one\" FROM \"pg_constraint\" AS \"c\" INNER JOIN \"pg_namespace\" AS \"n\" ON \"n\".\"oid\" = \"c\".\"connamespace\" WHERE (\"c\".\"conname\" = $1 AND \"n\".\"nspname\" = $2 AND \"c\".\"conrelid\" = to_regclass($3) AND \"c\".\"contype\" = $4 AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"conkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"conrelid\" AND key_attribute.attnum = key_column.attnum) = ($5)::jsonb AND \"c\".\"confrelid\" = to_regclass($6) AND (SELECT coalesce(jsonb_agg(key_attribute.attname ORDER BY key_column.position), '[]'::jsonb) FROM unnest(\"c\".\"confkey\"::int2[]) WITH ORDINALITY AS key_column(attnum, position) JOIN pg_attribute key_attribute ON key_attribute.attrelid = \"c\".\"confrelid\" AND key_attribute.attnum = key_column.attnum) = ($7)::jsonb AND \"c\".\"confdeltype\" = $8 AND \"c\".\"confupdtype\" = $9)) AS \"result\"",
+        "params": [
+          "skills_history_skill_id_fkey",
+          "public",
+          "\"public\".\"skills_history\"",
+          "f",
+          "[\"skill_id\"]",
+          "\"public\".\"skills\"",
+          "[\"id\"]",
+          "c",
+          "a"
+        ]
+      }
+    ]
+  }
+]

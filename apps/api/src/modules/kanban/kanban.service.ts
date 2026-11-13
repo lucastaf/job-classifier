@@ -27,6 +27,10 @@ export class KanbanService {
         ))
     }
 
+    public async GetFirstColumn(): Promise<KanbanItemOutputDTO> {
+        return this.db.client.KanbanStatus
+            .orderBy(status => status.position.asc()).firstOrThrow();
+    }
 
     public async ListKanbanColumns(): Promise<KanbanItemOutputDTO[]> {
         return this.db.client.KanbanStatus

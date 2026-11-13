@@ -4,6 +4,7 @@ import { AppService } from './app.service.js';
 import { SkillsModule } from './modules/skills/skills.module.js';
 import { ConfigModule } from "@nestjs/config";
 import { KanbanModule } from './modules/kanban/kanban.module.js';
+import { JobsModule } from './modules/jobs/jobs.module.js';
 
 @Module({
   imports: [
@@ -11,7 +12,8 @@ import { KanbanModule } from './modules/kanban/kanban.module.js';
       isGlobal: true,
     }),
     SkillsModule,
-    KanbanModule
+    KanbanModule,
+    JobsModule
   ],
   controllers: [AppController],
   providers: [AppService],

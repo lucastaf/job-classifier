@@ -128,7 +128,7 @@
                 }
               },
               "companyName": {
-                "nullable": false,
+                "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
@@ -149,7 +149,7 @@
                 }
               },
               "email": {
-                "nullable": false,
+                "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
@@ -177,14 +177,14 @@
                 }
               },
               "metadata": {
-                "nullable": false,
+                "nullable": true,
                 "type": {
                   "kind": "valueObject",
                   "name": "JobMetadata"
                 }
               },
               "phone": {
-                "nullable": false,
+                "nullable": true,
                 "type": {
                   "codecId": "pg/text@1",
                   "kind": "scalar"
@@ -783,6 +783,7 @@
                   "index": {
                     "name": "job_skills_jobId_idx_623c8f77"
                   },
+                  "onDelete": "cascade",
                   "source": {
                     "columns": [
                       "jobId"
@@ -802,6 +803,7 @@
                   "index": {
                     "name": "job_skills_skillId_idx_6e19993d"
                   },
+                  "onDelete": "cascade",
                   "source": {
                     "columns": [
                       "skillId"
@@ -859,7 +861,7 @@
                 "company_name": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
-                  "nullable": false
+                  "nullable": true
                 },
                 "created_at": {
                   "codecId": "pg/timestamptz-temporal@1",
@@ -878,7 +880,7 @@
                 "email": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
-                  "nullable": false
+                  "nullable": true
                 },
                 "id": {
                   "codecId": "pg/int4@1",
@@ -902,12 +904,12 @@
                 "metadata": {
                   "codecId": "pg/jsonb@1",
                   "dataType": "pg/jsonb",
-                  "nullable": false
+                  "nullable": true
                 },
                 "phone": {
                   "codecId": "pg/text@1",
                   "dataType": "pg/text",
-                  "nullable": false
+                  "nullable": true
                 },
                 "rating": {
                   "codecId": "pg/int4@1",
@@ -1004,6 +1006,7 @@
                   "index": {
                     "name": "jobs_history_job_id_idx_58a5bbdd"
                   },
+                  "onDelete": "cascade",
                   "source": {
                     "columns": [
                       "job_id"
@@ -1237,6 +1240,7 @@
                   "index": {
                     "name": "skills_history_skill_id_idx_676c8389"
                   },
+                  "onDelete": "cascade",
                   "source": {
                     "columns": [
                       "skill_id"
@@ -1276,7 +1280,7 @@
         "kind": "postgres-schema"
       }
     },
-    "storageHash": "8a47d849d639356775ab67bfae0b8abf74b023e8ec1de71b0cc4d5f57882a338"
+    "storageHash": "35133accd10a6669271139c0f7b0855947136b2bb4f0fc9460e45927eea2e6d0"
   },
   "capabilities": {
     "postgres": {

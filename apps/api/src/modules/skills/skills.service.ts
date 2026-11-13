@@ -47,12 +47,10 @@ export class SkillsService {
 
         const buildSkillHistoryEntries = fields.map((field) => ({
             field: field,
-            newValue: data[field] as any as string,
-            oldValue: currentData[field] as any as string,
+            newValue: String(data[field]),
+            oldValue: String(currentData[field]),
             skillId: id
         }));
-
-        console.log(buildSkillHistoryEntries);
 
         await this.db.client.SkillsHistory.createAll(buildSkillHistoryEntries);
 
