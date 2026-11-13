@@ -721,28 +721,7 @@
         "valueObjects": {
           "JobMetadata": {
             "fields": {
-              "remote": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/bool@1",
-                  "kind": "scalar"
-                }
-              },
-              "salary": {
-                "nullable": false,
-                "type": {
-                  "kind": "valueObject",
-                  "name": "SalaryRange"
-                }
-              },
-              "seniority": {
-                "nullable": false,
-                "type": {
-                  "codecId": "pg/text@1",
-                  "kind": "scalar"
-                }
-              },
-              "skills": {
+              "suggestedSkills": {
                 "many": {
                   "elementNullable": false
                 },

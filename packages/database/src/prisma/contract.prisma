@@ -10,10 +10,7 @@ model KanbanStatus {
 }
 
 type JobMetadata {
-    skills    String[]
-    seniority String
-    remote    Boolean
-    salary    SalaryRange
+    suggestedSkills    String[]
 }
 
 type SalaryRange {

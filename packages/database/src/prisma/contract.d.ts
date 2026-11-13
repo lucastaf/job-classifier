@@ -1324,19 +1324,7 @@ type ContractBase = Omit<
         readonly valueObjects: {
           readonly JobMetadata: {
             readonly fields: {
-              readonly remote: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
-              };
-              readonly salary: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'valueObject'; readonly name: 'SalaryRange' };
-              };
-              readonly seniority: {
-                readonly nullable: false;
-                readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-              };
-              readonly skills: {
+              readonly suggestedSkills: {
                 readonly nullable: false;
                 readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
                 readonly many: { readonly elementNullable: false };
@@ -1391,19 +1379,7 @@ type ContractBase = Omit<
   readonly valueObjects: {
     readonly JobMetadata: {
       readonly fields: {
-        readonly remote: {
-          readonly nullable: false;
-          readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/bool@1' };
-        };
-        readonly salary: {
-          readonly nullable: false;
-          readonly type: { readonly kind: 'valueObject'; readonly name: 'SalaryRange' };
-        };
-        readonly seniority: {
-          readonly nullable: false;
-          readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
-        };
-        readonly skills: {
+        readonly suggestedSkills: {
           readonly nullable: false;
           readonly type: { readonly kind: 'scalar'; readonly codecId: 'pg/text@1' };
           readonly many: { readonly elementNullable: false };
