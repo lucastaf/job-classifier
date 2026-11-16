@@ -6,6 +6,7 @@ import JobSideMenu from "@/routes/jobs/$jobId/_components/job-side-menu";
 import { Button } from "@/ui/button";
 import { createFileRoute } from "@tanstack/react-router";
 import { ExternalLink } from "lucide-react";
+import { useState } from "react";
 import SkillsSideMenu from "./_components/skills-side-menu";
 
 export const Route = createFileRoute("/skills/$skillId/")({
@@ -13,6 +14,14 @@ export const Route = createFileRoute("/skills/$skillId/")({
 });
 
 function RouteComponent() {
+  const [editorContent, setEditorContent] = useState(`
+    <h2>Bem-vindo ao editor!</h2>
+    <p>
+      Comece a escrever seu conteúdo aqui.
+      Selecione os textos para aplicar formatações.
+    </p>
+  `);
+
   return (
     <div>
       <Card>
@@ -29,7 +38,7 @@ function RouteComponent() {
       </Card>
       <div className="flex mt-4 gap-4 items-stretch">
         <div className="flex-2">
-          <RichTextEditor />
+          <RichTextEditor value={editorContent} onChange={setEditorContent} />
         </div>
         <div className="flex-1">
           <SkillsSideMenu />

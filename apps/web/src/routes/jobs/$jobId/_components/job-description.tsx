@@ -2,7 +2,12 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/ui/button";
 import { Mail, Phone } from "lucide-react";
 
-export default function JobDescription() {
+export default function JobDescription(props: {
+  email?: string;
+  phone?: string;
+  description?: string;
+}) {
+  const { description, email, phone } = props;
   return (
     <Card className="h-full">
       <CardContent className="h-full">
@@ -12,20 +17,15 @@ export default function JobDescription() {
               <div className="flex">
                 <Button size="sm">
                   <Mail />
-                  jobemail@company.com
+                  {email}
                 </Button>
                 <Button size="sm">
                   <Phone />
-                  (99) 99999-9999
+                  {phone}
                 </Button>
               </div>
             </CardTitle>
-            Lorem ipsum dolor sit amet consectetur adipiscing elit. Quisque
-            faucibus ex sapien vitae pellentesque sem placerat. In id cursus mi
-            pretium Pulvinar vivamus fringilla lacus nec metus bibendum egestas.
-            Iaculis massa nisl malesuada lacinia integer nunc posuere. Ut
-            hendrerit semper vel class aptent taciti sociosqu. Ad litora
-            torquent per conubia nostra inceptos himenaeos.
+            {description}
           </div>
           <div className="mt-2">Applied at: 01/01/2026 10:30</div>
         </div>

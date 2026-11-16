@@ -6,7 +6,7 @@ import { JobsBaseDTO } from "./jobs-base.dto.js";
 
 export class JobsListItemDTO extends PickType(JobsBaseDTO, ["title", "companyName", "kanbanStatus", "applicationDate", "id"]) { }
 
-export class JobItemOutputDTO extends OmitType(JobsBaseDTO, ["kanbanStatus", "jobSkills"]) {}
+export class JobItemOutputDTO extends OmitType(JobsBaseDTO, ["kanbanStatus", "jobSkills", "jobsHistories"]) {}
 
 export class JobItemByIdDTO extends JobsBaseDTO { }
 

@@ -86,7 +86,7 @@ paths:
     delete:
       operationId: SkillsController_DeleteSkill
       parameters:
-        - name: :skill_id
+        - name: skill_id
           required: true
           in: path
           schema:
@@ -555,8 +555,9 @@ components:
           type: string
           example: Full stack developer
         companyName:
-          type: object
+          type: string
           example: Software company
+          nullable: true
         applicationDate:
           format: date-time
           type: string
@@ -571,6 +572,54 @@ components:
         - applicationDate
         - id
         - kanbanStatus
+    JobMetadataDTO:
+      type: object
+      properties:
+        suggestedSkills:
+          type: array
+          items:
+            type: string
+      required:
+        - suggestedSkills
+    JobSkillsDTO:
+      type: object
+      properties:
+        jobId:
+          type: number
+        relevance:
+          type: number
+        skillId:
+          type: number
+        skill:
+          $ref: "#/components/schemas/SkillListItemDTO"
+      required:
+        - jobId
+        - relevance
+        - skillId
+        - skill
+    JobHistoryDTO:
+      type: object
+      properties:
+        id:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        field:
+          type: string
+        jobId:
+          type: number
+        newValue:
+          type: string
+        oldValue:
+          type: string
+      required:
+        - id
+        - createdAt
+        - field
+        - jobId
+        - newValue
+        - oldValue
     JobItemByIdDTO:
       type: object
       properties:
@@ -578,8 +627,9 @@ components:
           type: string
           example: Full stack developer
         companyName:
-          type: object
+          type: string
           example: Software company
+          nullable: true
         annotations:
           type: string
         description:
@@ -596,6 +646,7 @@ components:
             a plus.
 
             \        "
+          nullable: true
         jobLink:
           type: string
           example: https://linkedin.com
@@ -603,11 +654,13 @@ components:
           type: number
           example: 5
         email:
-          type: object
+          type: string
           example: contact@company.com
+          nullable: true
         phone:
-          type: object
+          type: string
           example: "9999999999"
+          nullable: true
         applicationDate:
           format: date-time
           type: string
@@ -620,13 +673,20 @@ components:
           format: date-time
           type: string
         metadata:
+          nullable: true
           type: object
+          allOf:
+            - $ref: "#/components/schemas/JobMetadataDTO"
         kanbanStatus:
           type: object
         jobSkills:
           type: array
           items:
-            type: string
+            $ref: "#/components/schemas/JobSkillsDTO"
+        jobsHistories:
+          type: array
+          items:
+            $ref: "#/components/schemas/JobHistoryDTO"
       required:
         - title
         - companyName
@@ -643,6 +703,7 @@ components:
         - metadata
         - kanbanStatus
         - jobSkills
+        - jobsHistories
     JobCreateInputDTO:
       type: object
       properties:
@@ -663,6 +724,7 @@ components:
             a plus.
 
             \        "
+          nullable: true
         jobLink:
           type: string
           example: https://linkedin.com
@@ -674,14 +736,17 @@ components:
           type: string
           example: 2024-08-17T14:32:10.000Z
         companyName:
-          type: object
+          type: string
           example: Software company
+          nullable: true
         email:
-          type: object
+          type: string
           example: contact@company.com
+          nullable: true
         phone:
-          type: object
+          type: string
           example: "9999999999"
+          nullable: true
       required:
         - title
         - description
@@ -695,8 +760,9 @@ components:
           type: string
           example: Full stack developer
         companyName:
-          type: object
+          type: string
           example: Software company
+          nullable: true
         annotations:
           type: string
         description:
@@ -713,6 +779,7 @@ components:
             a plus.
 
             \        "
+          nullable: true
         jobLink:
           type: string
           example: https://linkedin.com
@@ -720,11 +787,13 @@ components:
           type: number
           example: 5
         email:
-          type: object
+          type: string
           example: contact@company.com
+          nullable: true
         phone:
-          type: object
+          type: string
           example: "9999999999"
+          nullable: true
         applicationDate:
           format: date-time
           type: string
@@ -737,7 +806,10 @@ components:
           format: date-time
           type: string
         metadata:
+          nullable: true
           type: object
+          allOf:
+            - $ref: "#/components/schemas/JobMetadataDTO"
       required:
         - title
         - companyName
@@ -759,8 +831,9 @@ components:
           type: string
           example: Full stack developer
         companyName:
-          type: object
+          type: string
           example: Software company
+          nullable: true
         description:
           type: string
           example: "
@@ -775,6 +848,7 @@ components:
             a plus.
 
             \        "
+          nullable: true
         jobLink:
           type: string
           example: https://linkedin.com
@@ -782,11 +856,13 @@ components:
           type: number
           example: 5
         email:
-          type: object
+          type: string
           example: contact@company.com
+          nullable: true
         phone:
-          type: object
+          type: string
           example: "9999999999"
+          nullable: true
         applicationDate:
           format: date-time
           type: string

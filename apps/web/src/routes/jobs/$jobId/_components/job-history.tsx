@@ -1,7 +1,5 @@
-import HistoryItem from "@/components/history-component";
-import {
-  Timeline
-} from "@/components/reui/timeline";
+import HistoryItem, { type historyItem } from "@/components/history-component";
+import { Timeline } from "@/components/reui/timeline";
 import { Card, CardContent } from "@/components/ui/card";
 const roadmap = [
   {
@@ -38,14 +36,13 @@ const roadmap = [
   },
 ];
 
-
-
-export default function JobHistory() {
+export default function JobHistory(props: { data: historyItem[] }) {
+  const { data } = props;
   return (
     <Card className="h-full">
       <CardContent className="h-full">
         <Timeline defaultValue={3} className="w-full max-w-md">
-          {roadmap.map((item) => (
+          {data.map((item) => (
             <HistoryItem item={item} />
           ))}
         </Timeline>

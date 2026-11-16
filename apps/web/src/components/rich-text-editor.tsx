@@ -1,5 +1,6 @@
 
 import { useEditor, EditorContent, useEditorState } from "@tiptap/react";
+import { useEffect } from "react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
@@ -103,7 +104,12 @@ function ToolbarSeparator() {
   return <div className="mx-1 h-6 w-px shrink-0 bg-border" />;
 }
 
-export function RichTextEditor() {
+type RichTextEditorProps = {
+  value: string;
+  onChange: (value: string) => void;
+};
+
+export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -123,13 +129,11 @@ export function RichTextEditor() {
       }),
     ],
 
-    content: `
-      <h2>Bem-vindo ao editor!</h2>
-      <p>
-        Comece a escrever seu conteúdo aqui.
-        Selecione os textos para aplicar formatações.
-      </p>
-    `,
+    content: value,
+
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
+    },
 
     editorProps: {
       attributes: {
@@ -137,6 +141,12 @@ export function RichTextEditor() {
       },
     },
   });
+
+  useEffect(() => {
+    if (editor && editor.getHTML() !== value) {
+      editor.commands.setContent(value, { emitUpdate: false });
+    }
+  }, [editor, value]);
 
   const editorState = useEditorState({
     editor,

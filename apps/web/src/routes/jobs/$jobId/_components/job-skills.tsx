@@ -14,15 +14,12 @@ function SkillStatus(props: { skillName: string; skillPercentagem: number }) {
   );
 }
 
-function AdditionalSkills(props: {
-  skillName: string;
-  skillPercentagem: number;
-}) {
-  const { skillName, skillPercentagem } = props;
+function AdditionalSkills(props: { skillName: string }) {
+  const { skillName } = props;
 
   return (
     <div className="gap-2 mb-1 flex justify-between">
-      {skillName} - {skillPercentagem}%
+      {skillName}
       <Button size="sm">
         <Plus />
       </Button>
@@ -30,18 +27,25 @@ function AdditionalSkills(props: {
   );
 }
 
-export default function JobSkills() {
+export default function JobSkills(props: {
+  skills: Array<{ name: string; relevance: number; id: number }>;
+  additionalSkills: string[];
+}) {
+  const { additionalSkills, skills } = props;
   return (
     <Card className="h-full">
       <CardContent>
-        <SkillStatus skillName="C++" skillPercentagem={80} />
-        <SkillStatus skillName="Javascript" skillPercentagem={80} />
-        <SkillStatus skillName="AWS" skillPercentagem={50} />
-        <SkillStatus skillName="Docker" skillPercentagem={30} />
+        {skills.map((skill) => (
+          <SkillStatus
+            key={skill.id}
+            skillName={skill.name}
+            skillPercentagem={skill.relevance}
+          />
+        ))}
         <div className="mt-8 mb-2">Additional Skills:</div>
-        <AdditionalSkills skillName="Kubernetes" skillPercentagem={30} />
-        <AdditionalSkills skillName="Azure" skillPercentagem={30} />
-        <AdditionalSkills skillName="Linux" skillPercentagem={30} />
+        {additionalSkills.map((skill) => (
+          <AdditionalSkills skillName={skill} />
+        ))}
       </CardContent>
     </Card>
   );

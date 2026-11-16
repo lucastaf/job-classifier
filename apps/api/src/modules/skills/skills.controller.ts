@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { SkillsService } from "./skills.service.js";
-import { ApiOkResponse } from "@nestjs/swagger";
+import { ApiOkResponse, ApiParam } from "@nestjs/swagger";
 import { SkillCreateInputDTO, SkillDeleteOutputDTO, SkillItemByIDOutputDTO, SkillListItemDTO, SkillUpdateInputDTO } from "./dto/skill-item.dto.js";
 
 @Controller("/skills")
@@ -18,7 +18,7 @@ export class SkillsController {
 
     @Get("/:skill_id")
     @ApiOkResponse({
-        type: SkillItemByIDOutputDTO 
+        type: SkillItemByIDOutputDTO,
     })
     public GetSkillById(@Param("skill_id") id: number) {
         return this.service.GetSkillByID(id);
@@ -44,7 +44,7 @@ export class SkillsController {
     @ApiOkResponse({
         type: SkillDeleteOutputDTO
     })
-    public DeleteSkill(@Param(":skill_id") id: number){
+    public DeleteSkill(@Param("skill_id") id: number){
         return this.service.DeleteSkill(id)
     }
 }

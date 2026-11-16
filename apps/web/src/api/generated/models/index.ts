@@ -6,4 +6,42 @@
  * OpenAPI spec version: 1.0
  */
 
-
+export * from './jobCreateInputDTO';
+export * from './jobCreateInputDTOCompanyName';
+export * from './jobCreateInputDTOEmail';
+export * from './jobCreateInputDTOPhone';
+export * from './jobHistoryDTO';
+export * from './jobHistoryDTOCreatedAt';
+export * from './jobItemByIdDTO';
+export * from './jobItemByIdDTOCompanyName';
+export * from './jobItemByIdDTOEmail';
+export * from './jobItemByIdDTOKanbanStatus';
+export * from './jobItemByIdDTOMetadata';
+export * from './jobItemByIdDTOPhone';
+export * from './jobItemOutputDTO';
+export * from './jobItemOutputDTOCompanyName';
+export * from './jobItemOutputDTOEmail';
+export * from './jobItemOutputDTOMetadata';
+export * from './jobItemOutputDTOPhone';
+export * from './jobMetadataDTO';
+export * from './jobSkillsDTO';
+export * from './jobsListItemDTO';
+export * from './jobsListItemDTOCompanyName';
+export * from './jobsListItemDTOKanbanStatus';
+export * from './jobUpdateInputDTO';
+export * from './jobUpdateInputDTOCompanyName';
+export * from './jobUpdateInputDTOEmail';
+export * from './jobUpdateInputDTOPhone';
+export * from './kanbanCreateInputDTO';
+export * from './kanbanItemOutputDTO';
+export * from './kanbanUpdateInputDTO';
+export * from './skillCreateInputDTO';
+export * from './skillDeleteOutputDTO';
+export * from './skillGroupCreateDto';
+export * from './skillGroupItemDTO';
+export * from './skillGroupUpdateDto';
+export * from './skillItemByIDOutputDTO';
+export * from './skillItemByIDOutputDTOSkillsGroup';
+export * from './skillListItemDTO';
+export * from './skillListItemDTOSkillsGroup';
+export * from './skillUpdateInputDTO';
