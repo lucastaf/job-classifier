@@ -6,7 +6,7 @@
  * OpenAPI spec version: 1.0
  */
 import type { JobHistoryDTO } from './jobHistoryDTO';
-import type { JobItemByIdDTOKanbanStatus } from './jobItemByIdDTOKanbanStatus';
+import type { JobKanbanDTO } from './jobKanbanDTO';
 import type { JobMetadataDTO } from './jobMetadataDTO';
 import type { JobSkillsDTO } from './jobSkillsDTO';
 
@@ -29,7 +29,7 @@ export interface JobItemByIdDTO {
   createdAt: string;
   /** @nullable */
   metadata: JobMetadataDTO | null;
-  kanbanStatus: JobItemByIdDTOKanbanStatus;
+  kanbanStatus: JobKanbanDTO;
   jobSkills: JobSkillsDTO[];
   jobsHistories: JobHistoryDTO[];
 }

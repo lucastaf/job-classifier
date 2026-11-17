@@ -5,7 +5,7 @@
  * Documentação da API
  * OpenAPI spec version: 1.0
  */
-import type { JobsListItemDTOKanbanStatus } from './jobsListItemDTOKanbanStatus';
+import type { JobKanbanDTO } from './jobKanbanDTO';
 
 export interface JobsListItemDTO {
   title: string;
@@ -13,5 +13,5 @@ export interface JobsListItemDTO {
   companyName: string | null;
   applicationDate: string;
   id: number;
-  kanbanStatus: JobsListItemDTOKanbanStatus;
+  kanbanStatus: JobKanbanDTO;
 }

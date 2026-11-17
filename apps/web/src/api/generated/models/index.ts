@@ -23,6 +23,7 @@ export * from './jobItemOutputDTOCompanyName';
 export * from './jobItemOutputDTOEmail';
 export * from './jobItemOutputDTOMetadata';
 export * from './jobItemOutputDTOPhone';
+export * from './jobKanbanDTO';
 export * from './jobMetadataDTO';
 export * from './jobSkillsDTO';
 export * from './jobsListItemDTO';

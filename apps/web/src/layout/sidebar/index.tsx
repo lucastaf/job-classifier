@@ -16,8 +16,8 @@ export function AppSidebar() {
     <Sidebar variant="sidebar">
       <SidebarHeader></SidebarHeader>
       <SidebarContent>
-        <SideBarItem title={t("sidebar.jobs")} icon={<BriefcaseBusiness />} />
-        <SideBarItem title={t("sidebar.skills")} icon={<Medal />} />
+        <SideBarItem link="/jobs" title={t("sidebar.jobs")} icon={<BriefcaseBusiness />} />
+        <SideBarItem link="/skills" title={t("sidebar.skills")} icon={<Medal />} />
         <SidebarGroup />
         <SidebarGroup />
       </SidebarContent>

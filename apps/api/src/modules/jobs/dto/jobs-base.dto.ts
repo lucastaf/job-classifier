@@ -1,7 +1,7 @@
-import { SkillListItemDTO } from "@/modules/skills/dto/skill-item.dto.js";
 import { ApiProperty } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsDate, IsInt, IsNumber, IsString, Max, Min } from "class-validator";
+import { JobHistoryDTO, JobKanbanDTO, JobMetadataDTO, JobSkillsDTO } from "./jobs-sub-types.dto.js";
 
 export class JobsBaseDTO {
     @ApiProperty({ example: "Full stack developer" })
@@ -55,11 +55,8 @@ export class JobsBaseDTO {
     createdAt: Date;
     @ApiProperty({ type: () => JobMetadataDTO, nullable: true })
     metadata?: JobMetadataDTO | null;
-    @ApiProperty()
-    kanbanStatus: {
-        id: number;
-        columnName: string;
-    };
+    @ApiProperty({type: () => JobKanbanDTO})
+    kanbanStatus: JobKanbanDTO;
 
     @ApiProperty({
         type: () => JobSkillsDTO,
@@ -71,38 +68,3 @@ export class JobsBaseDTO {
     jobsHistories: JobHistoryDTO[];
 }
 
-class JobMetadataDTO {
-    @ApiProperty({ isArray: true, type: () => String })
-    suggestedSkills: readonly string[]
-}
-
-class JobHistoryDTO {
-    @ApiProperty()
-    id: number;
-    @ApiProperty({
-        type: String,
-        format: 'date-time',
-    })
-    createdAt: string;
-    @ApiProperty()
-    field: string;
-    @ApiProperty()
-    jobId: number;
-    @ApiProperty()
-    newValue: string;
-    @ApiProperty()
-    oldValue: string;
-}
-class JobSkillsDTO {
-    @ApiProperty()
-    jobId: number;
-
-    @ApiProperty()
-    relevance: number;
-
-    @ApiProperty()
-    skillId: number;
-
-    @ApiProperty({ type: () => SkillListItemDTO })
-    skill: SkillListItemDTO;
-}

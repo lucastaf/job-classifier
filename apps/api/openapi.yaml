@@ -522,8 +522,8 @@ components:
         position:
           type: number
         createdAt:
-          format: date-time
           type: string
+          format: date-time
         id:
           type: number
       required:
@@ -548,6 +548,16 @@ components:
       required:
         - columnName
         - position
+    JobKanbanDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        id:
+          type: number
+      required:
+        - columnName
+        - id
     JobsListItemDTO:
       type: object
       properties:
@@ -565,7 +575,7 @@ components:
         id:
           type: number
         kanbanStatus:
-          type: object
+          $ref: "#/components/schemas/JobKanbanDTO"
       required:
         - title
         - companyName
@@ -678,7 +688,7 @@ components:
           allOf:
             - $ref: "#/components/schemas/JobMetadataDTO"
         kanbanStatus:
-          type: object
+          $ref: "#/components/schemas/JobKanbanDTO"
         jobSkills:
           type: array
           items:

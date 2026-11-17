@@ -12,7 +12,10 @@ export class KanbanBaseDTO {
     position: number
 
     //Output only fields
-    @ApiProperty()
+    @ApiProperty({
+        type: () => String,
+        format: 'date-time'
+    })
     createdAt: Date
     @ApiProperty()
     id: number
