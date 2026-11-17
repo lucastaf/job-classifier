@@ -12,7 +12,7 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "tsdown --config-loader tsx",
     "composer:deploy": "prisma deploy",
     "composer:dev": "prisma dev",
     "contract:emit": "prisma contract emit",
