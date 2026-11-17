@@ -10,6 +10,7 @@ export interface JobUpdateInputDTO {
   title?: string;
   /** @nullable */
   companyName?: string | null;
+  annotations?: string;
   /** @nullable */
   description?: string | null;
   jobLink?: string;

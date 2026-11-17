@@ -18,5 +18,5 @@ export class JobCreateInputDTO extends IntersectionType(
 ) { }
 
 export class JobUpdateInputDTO extends PartialType(PickType(JobsBaseDTO,
-    ["title", "jobLink", "rating", "applicationDate", "description", "companyName", "email", "phone", "kanbanStatusId"]
+    ["title", "jobLink", "rating", "applicationDate", "description", "companyName", "email", "phone", "kanbanStatusId", "annotations"]
 )) { }

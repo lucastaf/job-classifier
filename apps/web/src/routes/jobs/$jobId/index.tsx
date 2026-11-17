@@ -1,13 +1,10 @@
-import { Rating } from "@/components/reui/rating";
+import { useJobsControllerGetJobsByID } from "@/api/generated";
 import RichTextEditor from "@/components/rich-text-editor";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/ui/button";
 import { createFileRoute, useParams } from "@tanstack/react-router";
-import { ExternalLink } from "lucide-react";
-import JobSideMenu from "./_components/job-side-menu";
-import { useJobsControllerGetJobsByID } from "@/api/generated";
 import { useMemo, useState } from "react";
+import JobHeader from "./_components/job-header";
+import JobSideMenu from "./_components/job-side-menu";
 
 export const Route = createFileRoute("/jobs/$jobId/")({
   component: RouteComponent,
@@ -24,31 +21,14 @@ function RouteComponent() {
 
   const [editorContent, setEditorContent] = useState(JobData?.annotations ?? "");
 
-  const FirstSkills = useMemo(() => JobData?.jobSkills.slice(0, 3), [JobData]);
-
   return (
     <div>
-      <Card>
-        <CardContent>
-          <CardTitle>
-            <div className="flex justify-between">
-              <div>{JobData?.title}</div>
-              <div className="flex gap-1">
-                {FirstSkills?.map((skill) => {
-                  return <Badge>{skill.skill.name}</Badge>;
-                })}
-              </div>
-            </div>
-          </CardTitle>
-          <div className="flex justify-between items-end mt-1">
-            <Rating editable rating={JobData?.rating ?? 0} />
-            <Button size={"sm"}>
-              {JobData?.companyName ?? ""}
-              <ExternalLink />
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <JobHeader
+        companyName={JobData?.companyName}
+        rating={JobData?.rating}
+        skills={JobData?.jobSkills}
+        title={JobData?.title}
+      />
       <div className="flex mt-4 gap-4 items-stretch">
         <div className="flex-2">
           <RichTextEditor value={editorContent} onChange={setEditorContent} />
@@ -72,6 +52,9 @@ function RouteComponent() {
             }}
           />
         </div>
+      </div>
+      <div className="mt-2 flex justify-end">
+        <Button className={"text-lg"} size={"lg"}>Save</Button>
       </div>
     </div>
   );
