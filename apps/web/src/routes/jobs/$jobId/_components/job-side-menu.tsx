@@ -1,25 +1,29 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/ui/button";
-import { Mail, Phone } from "lucide-react";
+import { Mail, Pencil, Phone } from "lucide-react";
 import JobDescription from "./job-description";
 import JobSkills from "./job-skills";
 import JobHistory from "./job-history";
 import type { historyItem } from "@/components/history-component";
+import { useState } from "react";
+import JobEditModal from "./job-edit-modal";
 
 export default function JobSideMenu(props: {
   descriptionData: {
     email?: string;
     phone?: string;
     description?: string;
+    applicationDate: string;
   };
   skillsData: {
     skills: Array<{ name: string; relevance: number; id: number }>;
     additionalSkills: string[];
   };
   historyData: historyItem[];
+  onEditClick: () => void
 }) {
-  const { descriptionData, historyData, skillsData } = props;
+  const { descriptionData, historyData, skillsData, onEditClick } = props;
 
   return (
     <Tabs className="h-full">
@@ -27,12 +31,16 @@ export default function JobSideMenu(props: {
         <TabsTrigger value="description">Job Description</TabsTrigger>
         <TabsTrigger value="skills">Skills</TabsTrigger>
         <TabsTrigger value="history">History</TabsTrigger>
+        <Button onClick={onEditClick} size="icon" className={""}>
+          <Pencil />{" "}
+        </Button>
       </TabsList>
       <TabsContent value="description">
         <JobDescription
           description={descriptionData.description}
           email={descriptionData.email}
           phone={descriptionData.phone}
+          applicationDate={descriptionData.applicationDate}
         />
       </TabsContent>
       <TabsContent value="skills">

@@ -9,7 +9,8 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [tailwindcss(), tanstackRouter({
     target: 'react',
-    autoCodeSplitting: true
+    autoCodeSplitting: true,
+    routeFileIgnorePattern: "_components",
   }), react(), babel({
     presets: [reactCompilerPreset()]
   })],

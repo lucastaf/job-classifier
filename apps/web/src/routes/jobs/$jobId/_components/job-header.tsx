@@ -28,7 +28,7 @@ export default function JobHeader(props: {
           </div>
         </CardTitle>
         <div className="flex justify-between items-end mt-1">
-          <Rating editable rating={rating ?? 0} />
+          <Rating rating={rating ?? 0} />
           <Button size={"sm"}>
             {companyName ?? ""}
             <ExternalLink />

@@ -1,13 +1,17 @@
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Button } from "@/ui/button";
+import { format } from "date-fns";
 import { Mail, Phone } from "lucide-react";
 
 export default function JobDescription(props: {
   email?: string;
   phone?: string;
   description?: string;
+  applicationDate: string;
 }) {
-  const { description, email, phone } = props;
+  const { description, email, phone, applicationDate } = props;
+  const formatedDate = format(applicationDate, "dd/MM/yyyy HH:mm");
+
   return (
     <Card className="h-full">
       <CardContent className="h-full">
@@ -27,7 +31,7 @@ export default function JobDescription(props: {
             </CardTitle>
             {description}
           </div>
-          <div className="mt-2">Applied at: 01/01/2026 10:30</div>
+          <div className="mt-2">Applied at: {formatedDate}</div>
         </div>
       </CardContent>
     </Card>
