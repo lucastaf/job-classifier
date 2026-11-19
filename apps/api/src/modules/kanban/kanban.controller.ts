@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
 import { ApiOkResponse } from "@nestjs/swagger";
 import { KanbanService } from "./kanban.service.js";
-import { KanbanCreateInputDTO, KanbanItemOutputDTO, KanbanUpdateInputDTO } from "./dto/kanban-column.dto.js";
+import { KanbanCreateInputDTO, KanbanItemOutputDTO, KanbanUpdateInputDTO, KanbanWithJobsOutputDTO } from "./dto/kanban-column.dto.js";
 
 @Controller("/kanban")
 export class KanbanController {
@@ -14,6 +14,15 @@ export class KanbanController {
     })
     public listColumns(): Promise<KanbanItemOutputDTO[]> {
         return this.service.ListKanbanColumns();
+    }
+
+    @Get("/jobs")
+    @ApiOkResponse({
+        type: KanbanWithJobsOutputDTO,
+        isArray: true,
+    })
+    public getJobsKanban(): Promise<KanbanWithJobsOutputDTO[]> {
+        return this.service.ListKanbanJobs();
     }
 
     @Put("/:column_id")

@@ -1,3 +1,4 @@
+import { JobsBaseDTO } from "@/modules/jobs/dto/jobs-base.dto.js"
 import { ApiProperty } from "@nestjs/swagger"
 import { IsInt, IsString, Min } from "class-validator"
 

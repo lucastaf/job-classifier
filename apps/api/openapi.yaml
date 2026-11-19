@@ -207,6 +207,21 @@ paths:
                 $ref: "#/components/schemas/KanbanItemOutputDTO"
       tags:
         - Kanban
+  /kanban/jobs:
+    get:
+      operationId: KanbanController_getJobsKanban
+      parameters: []
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/KanbanWithJobsOutputDTO"
+      tags:
+        - Kanban
   /kanban/{column_id}:
     put:
       operationId: KanbanController_updateColumn
@@ -531,6 +546,53 @@ components:
         - position
         - createdAt
         - id
+    KanbanJob:
+      type: object
+      properties:
+        title:
+          type: string
+          example: Full stack developer
+        companyName:
+          type: string
+          example: Software company
+          nullable: true
+        rating:
+          type: number
+          example: 5
+        applicationDate:
+          format: date-time
+          type: string
+          example: 2024-08-17T14:32:10.000Z
+        id:
+          type: number
+      required:
+        - title
+        - companyName
+        - rating
+        - applicationDate
+        - id
+    KanbanWithJobsOutputDTO:
+      type: object
+      properties:
+        columnName:
+          type: string
+        position:
+          type: number
+        createdAt:
+          type: string
+          format: date-time
+        id:
+          type: number
+        jobs:
+          type: array
+          items:
+            $ref: "#/components/schemas/KanbanJob"
+      required:
+        - columnName
+        - position
+        - createdAt
+        - id
+        - jobs
     KanbanUpdateInputDTO:
       type: object
       properties:

@@ -1,6 +1,6 @@
 import { DatabaseService } from "@/infra/db/database.service.js";
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { KanbanCreateInputDTO, KanbanItemOutputDTO, KanbanUpdateInputDTO } from "./dto/kanban-column.dto.js";
+import { KanbanCreateInputDTO, KanbanItemOutputDTO, KanbanUpdateInputDTO, KanbanWithJobsOutputDTO } from "./dto/kanban-column.dto.js";
 
 @Injectable()
 export class KanbanService {
@@ -30,6 +30,12 @@ export class KanbanService {
     public async GetFirstColumn(): Promise<KanbanItemOutputDTO> {
         return this.db.client.KanbanStatus
             .orderBy(status => status.position.asc()).firstOrThrow();
+    }
+
+    public async ListKanbanJobs(): Promise<KanbanWithJobsOutputDTO[]> {
+        return this.db.client.KanbanStatus
+            .include("jobs", (jobs) => jobs.select("id", "title", "rating", "companyName", "applicationDate"))
+            .all()
     }
 
     public async ListKanbanColumns(): Promise<KanbanItemOutputDTO[]> {

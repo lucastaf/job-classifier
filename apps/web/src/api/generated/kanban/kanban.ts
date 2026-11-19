@@ -27,7 +27,8 @@ import type {
 import type {
   KanbanCreateInputDTO,
   KanbanItemOutputDTO,
-  KanbanUpdateInputDTO
+  KanbanUpdateInputDTO,
+  KanbanWithJobsOutputDTO
 } from '../models';
 
 
@@ -261,7 +262,119 @@ const {mutation: mutationOptions, fetch: fetchOptions} = options ?
       > => {
       return useMutation(getKanbanControllerCreateColumnMutationOptions(options), queryClient);
     }
-    export type kanbanControllerUpdateColumnResponse200 = {
+    export type kanbanControllerGetJobsKanbanResponse200 = {
+  data: KanbanWithJobsOutputDTO[]
+  status: 200
+}
+
+export type kanbanControllerGetJobsKanbanResponseSuccess = (kanbanControllerGetJobsKanbanResponse200) & {
+  headers: Headers;
+};
+;
+
+export type kanbanControllerGetJobsKanbanResponse = (kanbanControllerGetJobsKanbanResponseSuccess)
+
+export const getKanbanControllerGetJobsKanbanUrl = () => {
+
+
+
+
+  return `http://localhost:3000/kanban/jobs`
+}
+
+export const kanbanControllerGetJobsKanban = async ( options?: RequestInit): Promise<kanbanControllerGetJobsKanbanResponse> => {
+
+  const res = await fetch(getKanbanControllerGetJobsKanbanUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+)
+
+
+  const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+
+  const data: kanbanControllerGetJobsKanbanResponse['data'] = body ? JSON.parse(body) : {}
+  return { data, status: res.status, headers: res.headers } as kanbanControllerGetJobsKanbanResponse
+}
+
+
+
+
+
+export const getKanbanControllerGetJobsKanbanQueryKey = () => {
+    return [
+    `http://localhost:3000/kanban/jobs`
+    ] as const;
+    }
+
+
+export const getKanbanControllerGetJobsKanbanQueryOptions = <TData = Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError = unknown>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError, TData>>, fetch?: RequestInit}
+) => {
+
+const {query: queryOptions, fetch: fetchOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getKanbanControllerGetJobsKanbanQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>> = ({ signal }) => kanbanControllerGetJobsKanban({ signal, ...fetchOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type KanbanControllerGetJobsKanbanQueryResult = NonNullable<Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>>
+export type KanbanControllerGetJobsKanbanQueryError = unknown
+
+
+export function useKanbanControllerGetJobsKanban<TData = Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError = unknown>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>,
+          TError,
+          Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useKanbanControllerGetJobsKanban<TData = Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>,
+          TError,
+          Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>
+        > , 'initialData'
+      >, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useKanbanControllerGetJobsKanban<TData = Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useKanbanControllerGetJobsKanban<TData = Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError = unknown>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof kanbanControllerGetJobsKanban>>, TError, TData>>, fetch?: RequestInit}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getKanbanControllerGetJobsKanbanQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+export type kanbanControllerUpdateColumnResponse200 = {
   data: KanbanItemOutputDTO | null
   status: 200
 }

@@ -1,6 +1,5 @@
 "use client";
 
-import { type ComponentProps, useState } from "react";
 import { Badge } from "@/components/reui/badge";
 import {
   Kanban,
@@ -12,26 +11,20 @@ import {
   KanbanItemHandle,
   KanbanOverlay,
 } from "@/components/reui/kanban";
+import { type ComponentProps, useEffect, useMemo, useState } from "react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  useJobsControllerUpdateJob,
+  useKanbanControllerGetJobsKanban,
+} from "@/api/generated";
+import type { KanbanJob } from "@/api/generated/models";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { GripVerticalIcon } from "lucide-react";
+import toast from "react-hot-toast";
 import { Rating } from "./reui/rating";
 
-interface Task {
-  id: string;
-  title: string;
-  rating: number;
-  companyName?: string;
-  appliedDate?: string;
-}
-
-const COLUMN_TITLES: Record<string, string> = {
-  backlog: "Backlog",
-  inProgress: "In Progress",
-  done: "Done",
-};
+type Task = KanbanJob;
 
 interface TaskCardProps extends Omit<
   ComponentProps<typeof KanbanItem>,
@@ -78,18 +71,24 @@ interface TaskColumnProps extends Omit<
   "children"
 > {
   tasks: Task[];
+  label?: string;
   isOverlay?: boolean;
 }
 
-function TaskColumn({ value, tasks, isOverlay, ...props }: TaskColumnProps) {
+function TaskColumn({
+  value,
+  tasks,
+  isOverlay,
+  label,
+  ...props
+}: TaskColumnProps) {
+  const realLabel = label ?? value;
   return (
     <KanbanColumn value={value} {...props}>
       <Card className="mb-2.5">
         <CardHeader className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <span className="text-sm font-semibold">
-              {COLUMN_TITLES[value]}
-            </span>
+            <span className="text-sm font-semibold">{realLabel}</span>
             <Badge variant="outline">{tasks.length}</Badge>
           </div>
           <KanbanColumnHandle
@@ -118,58 +117,70 @@ function TaskColumn({ value, tasks, isOverlay, ...props }: TaskColumnProps) {
 }
 
 export function JobsKanban() {
-  const [columns, setColumns] = useState<Record<string, Task[]>>({
-    backlog: [
-      {
-        id: "1",
-        title: "Add authentication",
-        rating: 5,
-        appliedDate: "10/10/2025 10:30",
-        companyName: "Tech Company",
-      },
-      {
-        id: "2",
-        title: "Create API endpoints",
-        rating: 5,
-        appliedDate: "10/10/2025 10:30",
-        companyName: "Tech Company",
-      },
-      {
-        id: "3",
-        title: "Write documentation",
-        rating: 5,
-        appliedDate: "10/10/2025 10:30",
-        companyName: "Tech Company",
-      },
-    ],
-    inProgress: [
-      {
-        id: "4",
-        title: "Design system updates",
-        rating: 5,
-        appliedDate: "10/10/2025 10:30",
-        companyName: "Tech Company",
-      },
-      {
-        id: "5",
-        title: "Implement dark mode",
-        rating: 5,
-        appliedDate: "10/10/2025 10:30",
-        companyName: "Tech Company",
-      },
-    ],
-    done: [],
-  });
+  const kanbanData = useKanbanControllerGetJobsKanban();
+  const { mutateAsync: moveJob } = useJobsControllerUpdateJob();
+  const columnsLabelsMemo = useMemo<Record<string, string>>(() => {
+    if (kanbanData.data?.data) {
+      const returnValue: Record<string, string> = {};
+      kanbanData.data.data.forEach((column) => {
+        returnValue[column.id] = column.columnName;
+      });
+      return returnValue;
+    }
+  }, [kanbanData]);
+
+  const columnsMemo = useMemo<Record<string, Task[]> | undefined>(() => {
+    if (kanbanData.data?.data) {
+      const returnValue: Record<string, Task[]> = {};
+      kanbanData.data.data.forEach((kanban) => {
+        returnValue[kanban.id] = kanban.jobs;
+      });
+      return returnValue;
+    }
+    return undefined;
+  }, [kanbanData]);
+
+  const [columns, setColumns] = useState<Record<string, Task[]>>(
+    columnsMemo ?? {},
+  );
+
+  useEffect(() => {
+    if (columnsMemo) setColumns(columnsMemo);
+  }, [columnsMemo]);
 
   return (
     <Kanban
       value={columns}
       onValueChange={setColumns}
+      onValueCommit={async (next, meta) => {
+        if (meta.kind !== "item") return;
+
+        const jobId = Number(meta.event.active.id);
+        const kanbanStatusId = Number(meta.overContainer);
+        try {
+          await moveJob({
+            jobId: jobId,
+            data: {
+              kanbanStatusId: kanbanStatusId
+            }
+          });
+        } catch (error) {
+          // Rollback: restaura o estado anterior
+          setColumns(meta.previousValue);
+
+          toast.error("Error trying to move the job");
+        }
+      }}
       getItemValue={(item) => item.id}
     >
       <KanbanBoard className="grid auto-rows-fr grid-cols-3">
         {Object.entries(columns).map(([columnValue, tasks]) => (
-          <TaskColumn key={columnValue} value={columnValue} tasks={tasks} />
+          <TaskColumn
+            label={columnsLabelsMemo[columnValue]}
+            key={columnValue}
+            value={columnValue}
+            tasks={tasks}
+          />
         ))}
       </KanbanBoard>
       <KanbanOverlay className="bg-muted/10 rounded-md border-2 border-dashed" />
