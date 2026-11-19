@@ -21,20 +21,24 @@ export default function JobSideMenu(props: {
     additionalSkills: string[];
   };
   historyData: historyItem[];
-  onEditClick: () => void
+  onEditClick: () => void;
 }) {
   const { descriptionData, historyData, skillsData, onEditClick } = props;
 
   return (
     <Tabs className="h-full">
-      <TabsList>
-        <TabsTrigger value="description">Job Description</TabsTrigger>
-        <TabsTrigger value="skills">Skills</TabsTrigger>
-        <TabsTrigger value="history">History</TabsTrigger>
-        <Button onClick={onEditClick} size="icon" className={""}>
-          <Pencil />{" "}
-        </Button>
-      </TabsList>
+      <div className="flex">
+        <TabsList>
+          <TabsTrigger value="description">Job Description</TabsTrigger>
+          <TabsTrigger value="skills">Skills</TabsTrigger>
+          <TabsTrigger value="history">History</TabsTrigger>
+        </TabsList>
+        <div className="flex flex-1 justify-end">
+          <Button onClick={onEditClick} size="icon" className={"ml-auto"}>
+            <Pencil />
+          </Button>
+        </div>
+      </div>
       <TabsContent value="description">
         <JobDescription
           description={descriptionData.description}

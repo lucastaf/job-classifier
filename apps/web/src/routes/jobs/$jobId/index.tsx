@@ -68,10 +68,26 @@ function RouteComponent() {
         rating={JobData?.rating}
         skills={JobData?.jobSkills}
         title={JobData?.title}
+        jobLink={JobData?.jobLink}
       />
       <div className="flex mt-4 gap-4 items-stretch">
         <div className="flex-2">
-          <RichTextEditor value={editorContent} onChange={setEditorContent} />
+          <RichTextEditor
+            value={editorContent}
+            onChange={setEditorContent}
+            additionalActions={
+              <Button
+                className={"ml-auto"}
+                onClick={() => {
+                  saveContent({
+                    annotations: editorContent,
+                  });
+                }}
+              >
+                Save
+              </Button>
+            }
+          />
         </div>
         <div className="flex-1">
           {JobData && (
@@ -96,19 +112,6 @@ function RouteComponent() {
             />
           )}
         </div>
-      </div>
-      <div className="mt-2 flex justify-end">
-        <Button
-          onClick={() =>
-            saveContent({
-              annotations: editorContent,
-            })
-          }
-          className={"text-lg"}
-          size={"lg"}
-        >
-          Save
-        </Button>
       </div>
     </div>
   );

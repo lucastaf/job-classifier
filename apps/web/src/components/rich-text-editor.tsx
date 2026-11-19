@@ -1,6 +1,5 @@
-
 import { useEditor, EditorContent, useEditorState } from "@tiptap/react";
-import { useEffect } from "react";
+import { useEffect, type ReactNode } from "react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
@@ -25,6 +24,7 @@ import {
   Link as LinkIcon,
   ImagePlus,
 } from "lucide-react";
+import { Button } from "./ui/button";
 
 // Extensão para controlar o tamanho da fonte
 const FontSize = Extension.create({
@@ -38,8 +38,7 @@ const FontSize = Extension.create({
           fontSize: {
             default: null,
 
-            parseHTML: (element) =>
-              element.style.fontSize || null,
+            parseHTML: (element) => element.style.fontSize || null,
 
             renderHTML: (attributes) => {
               if (!attributes.fontSize) return {};
@@ -55,15 +54,7 @@ const FontSize = Extension.create({
   },
 });
 
-const fontSizes = [
-  "12px",
-  "14px",
-  "16px",
-  "18px",
-  "24px",
-  "32px",
-  "48px",
-];
+const fontSizes = ["12px", "14px", "16px", "18px", "24px", "32px", "48px"];
 
 type ToolbarButtonProps = {
   icon: React.ElementType;
@@ -107,9 +98,14 @@ function ToolbarSeparator() {
 type RichTextEditorProps = {
   value: string;
   onChange: (value: string) => void;
+  additionalActions?: ReactNode;
 };
 
-export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
+export function RichTextEditor({
+  value,
+  onChange,
+  additionalActions,
+}: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -168,7 +164,7 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
 
     const url = window.prompt(
       "Digite a URL do link:",
-      previousUrl || "https://"
+      previousUrl || "https://",
     );
 
     if (url === null) return;
@@ -178,12 +174,7 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
       return;
     }
 
-    editor
-      .chain()
-      .focus()
-      .extendMarkRange("link")
-      .setLink({ href: url })
-      .run();
+    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
   };
 
   // Inserir imagem através de URL
@@ -197,23 +188,19 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
 
   // Alterar tamanho da fonte
   const handleFontSize = (size: string) => {
-    editor
-      .chain()
-      .focus()
-      .setMark("textStyle", { fontSize: size })
-      .run();
+    editor.chain().focus().setMark("textStyle", { fontSize: size }).run();
   };
 
   return (
     <div className="w-full overflow-hidden rounded-xl border border-border bg-background h-full">
-
       {/* TOOLBAR */}
-      <div className="
+      <div
+        className="
         sticky top-0 z-10 flex flex-wrap items-center
         gap-1 border-b border-border bg-background
         px-3 py-2
-      ">
-
+      "
+      >
         {/* Histórico */}
         <ToolbarButton
           icon={Undo2}
@@ -288,33 +275,25 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
         <ToolbarButton
           icon={AlignLeft}
           title="Alinhar à esquerda"
-          onClick={() =>
-            editor.chain().focus().setTextAlign("left").run()
-          }
+          onClick={() => editor.chain().focus().setTextAlign("left").run()}
         />
 
         <ToolbarButton
           icon={AlignCenter}
           title="Centralizar"
-          onClick={() =>
-            editor.chain().focus().setTextAlign("center").run()
-          }
+          onClick={() => editor.chain().focus().setTextAlign("center").run()}
         />
 
         <ToolbarButton
           icon={AlignRight}
           title="Alinhar à direita"
-          onClick={() =>
-            editor.chain().focus().setTextAlign("right").run()
-          }
+          onClick={() => editor.chain().focus().setTextAlign("right").run()}
         />
 
         <ToolbarButton
           icon={AlignJustify}
           title="Justificar"
-          onClick={() =>
-            editor.chain().focus().setTextAlign("justify").run()
-          }
+          onClick={() => editor.chain().focus().setTextAlign("justify").run()}
         />
 
         <ToolbarSeparator />
@@ -324,18 +303,14 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
           icon={List}
           title="Lista com marcadores"
           active={!!editorState?.bulletList}
-          onClick={() =>
-            editor.chain().focus().toggleBulletList().run()
-          }
+          onClick={() => editor.chain().focus().toggleBulletList().run()}
         />
 
         <ToolbarButton
           icon={ListOrdered}
           title="Lista numerada"
           active={!!editorState?.orderedList}
-          onClick={() =>
-            editor.chain().focus().toggleOrderedList().run()
-          }
+          onClick={() => editor.chain().focus().toggleOrderedList().run()}
         />
 
         <ToolbarSeparator />
@@ -353,13 +328,13 @@ export function RichTextEditor({ value, onChange }: RichTextEditorProps) {
           onClick={handleImage}
         />
 
+        {additionalActions}
       </div>
 
       {/* ÁREA DE EDIÇÃO */}
       <div className="min-h-[400px] cursor-text px-8 py-6">
         <EditorContent editor={editor} />
       </div>
-
     </div>
   );
 }

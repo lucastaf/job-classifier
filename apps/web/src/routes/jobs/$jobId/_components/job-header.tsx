@@ -10,8 +10,9 @@ export default function JobHeader(props: {
   skills?: JobSkillsDTO[];
   rating?: number;
   companyName?: string | null;
+  jobLink?: string;
 }) {
-  const { companyName, rating, skills, title } = props;
+  const { companyName, rating, skills, title, jobLink } = props;
   const FirstSkills = useMemo(() => skills?.slice(0, 3) ?? [], [skills]);
 
   return (
@@ -29,10 +30,12 @@ export default function JobHeader(props: {
         </CardTitle>
         <div className="flex justify-between items-end mt-1">
           <Rating rating={rating ?? 0} />
-          <Button size={"sm"}>
-            {companyName ?? ""}
-            <ExternalLink />
-          </Button>
+          <a target="_blank" href={jobLink} rel="noopener noreferrer">
+            <Button size={"sm"}>
+              {companyName ?? ""}
+              <ExternalLink />
+            </Button>
+          </a>
         </div>
       </CardContent>
     </Card>
