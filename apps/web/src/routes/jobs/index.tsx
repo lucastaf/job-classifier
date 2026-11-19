@@ -1,4 +1,3 @@
-import { JobsKanban } from "@/components/job-kanban";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { createFileRoute } from "@tanstack/react-router";
@@ -6,6 +5,7 @@ import { JobsList } from "./_components/jobs-list";
 import { Plus, PlusCircle } from "lucide-react";
 import { Button } from "@/ui/button";
 import JobCreateButton from "./_components/job-create-button";
+import { JobsKanban } from "@/components/jobs/kanban/job-kanban";
 
 export const Route = createFileRoute("/jobs/")({
   component: RouteComponent,
