@@ -1,5 +1,9 @@
 import { useKanbanControllerListColumns } from "@/api/generated";
-import type { JobItemByIdDTO, JobUpdateInputDTO } from "@/api/generated/models";
+import type {
+  JobCreateInputDTO,
+  JobItemByIdDTO,
+  JobUpdateInputDTO,
+} from "@/api/generated/models";
 import { Rating } from "@/components/reui/rating";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -11,45 +15,59 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/ui/button";
 import { format } from "date-fns";
 import { useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { jobSchema } from "./job-create-schema";
+import type z from "zod";
+import toast from "react-hot-toast";
 
 export default function JobEditModal(props: {
   open: boolean;
   setOpen: (state: boolean) => void;
-  data: JobItemByIdDTO;
-  onConfirm: (data: JobUpdateInputDTO) => void;
+  initialData: JobUpdateInputDTO;
+  onSubmit: (data: z.infer<typeof jobSchema>) => void;
 }) {
-  const { data, open, setOpen, onConfirm } = props;
+  const { initialData: data, open, setOpen, onSubmit } = props;
 
-  const { register, setValue, watch, reset, handleSubmit } = useForm({
+  const { register, setValue, watch, reset, handleSubmit, getValues } = useForm<
+    z.infer<typeof jobSchema>
+  >({
+    resolver: zodResolver(jobSchema),
     defaultValues: {
       title: data.title,
       companyName: data.companyName,
       applicationDate: format(
-        new Date(data.applicationDate),
+        data.applicationDate ? new Date(data.applicationDate) : new Date(),
         "yyyy-MM-dd'T'HH:mm",
       ),
-      description: data.description,
+      description: data.description ?? "",
       email: data.email,
       phone: data.phone,
       kanbanStatusId: data.kanbanStatusId,
-      rating: data.rating,
+      rating: data.rating ?? 4,
       jobLink: data.jobLink,
     },
   });
   const availableKanbanStatus = useKanbanControllerListColumns();
-  const kanbanStatuses = useMemo(
-    () =>
-      availableKanbanStatus.data?.data?.map((status) => ({
-        label: status.columnName,
-        value: String(status.id),
-      })) ?? [],
-    [availableKanbanStatus],
-  );
+  const kanbanStatuses = useMemo(() => {
+    const data = availableKanbanStatus.data?.data;
+    if (data) {
+      if (!getValues("kanbanStatusId")) {
+        setValue("kanbanStatusId", data[0].id);
+      }
+      return (
+        data.map((status) => ({
+          label: status.columnName,
+          value: String(status.id),
+        })) ?? []
+      );
+    }
+    return [];
+  }, [availableKanbanStatus]);
 
   return (
     <Dialog
@@ -136,18 +154,25 @@ export default function JobEditModal(props: {
             Cancel
           </Button>
           <Button
-            onClick={handleSubmit((formData) => {
-              const patchedDate = new Date(formData.applicationDate)
-                .toISOString()
-                .replace(".000Z", "Z");
-              console.log("InputData", data.applicationDate);
-              console.log("FormData", patchedDate);
-              const payload = {
-                ...formData,
-                applicationDate: patchedDate,
-              };
-              onConfirm(payload);
-            })}
+            onClick={handleSubmit(
+              (formData) => {
+                const patchedDate = new Date(formData.applicationDate)
+                  .toISOString()
+                  .replace(".000Z", "Z");
+
+                onSubmit({
+                  ...formData,
+                  applicationDate: patchedDate,
+                });
+              },
+              (errors) => {
+                const firstError = Object.values(errors)[0];
+
+                toast.error(
+                  firstError?.message?.toString() ?? "Formulário inválido",
+                );
+              },
+            )}
           >
             Save
           </Button>

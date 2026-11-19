@@ -14,7 +14,7 @@ import {
   type JobUpdateInputDTO,
 } from "@/api/generated/models";
 import toast from "react-hot-toast";
-import JobEditModal from "./_components/job-edit-modal";
+import JobEditModal from "../../../components/jobs/job-edit-modal";
 
 export const Route = createFileRoute("/jobs/$jobId/")({
   component: RouteComponent,
@@ -59,8 +59,8 @@ function RouteComponent() {
         <JobEditModal
           open={openModal}
           setOpen={setOpenModal}
-          data={JobData}
-          onConfirm={saveContent}
+          initialData={JobData}
+          onSubmit={saveContent}
         />
       )}
       <JobHeader

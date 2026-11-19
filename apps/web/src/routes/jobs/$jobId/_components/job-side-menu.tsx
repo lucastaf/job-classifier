@@ -1,13 +1,10 @@
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import type { historyItem } from "@/components/history-component";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/ui/button";
-import { Mail, Pencil, Phone } from "lucide-react";
+import { Pencil } from "lucide-react";
 import JobDescription from "./job-description";
-import JobSkills from "./job-skills";
 import JobHistory from "./job-history";
-import type { historyItem } from "@/components/history-component";
-import { useState } from "react";
-import JobEditModal from "./job-edit-modal";
+import JobSkills from "./job-skills";
 
 export default function JobSideMenu(props: {
   descriptionData: {
