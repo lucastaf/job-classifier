@@ -23,6 +23,8 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { GripVerticalIcon } from "lucide-react";
 import toast from "react-hot-toast";
 import { Rating } from "./reui/rating";
+import { format } from "date-fns";
+import { useNavigate } from "@tanstack/react-router";
 
 type Task = KanbanJob;
 
@@ -36,18 +38,27 @@ interface TaskCardProps extends Omit<
 }
 
 function TaskCard({ task, asHandle, isOverlay, ...props }: TaskCardProps) {
+  const navigate = useNavigate();
+
   const cardContent = (
     <Card>
-      <CardContent className="space-y-2.5">
+      <CardContent
+        onDoubleClick={() => {
+          navigate({
+            to: `/jobs/${task.id}`,
+          });
+        }}
+        className="space-y-2.5"
+      >
         <div className="flex items-center justify-between gap-2">
           <span className="line-clamp-1 text-sm font-medium">{task.title}</span>
           <Rating rating={task.rating} />
         </div>
         <div className="text-muted-foreground flex items-center justify-between text-xs">
           <div>{task.companyName}</div>
-          {task.appliedDate && (
+          {task.applicationDate && (
             <time className="text-[10px] whitespace-nowrap tabular-nums">
-              {task.appliedDate}
+              {format(task.applicationDate, "dd/MM/yyyy HH:mm")}
             </time>
           )}
         </div>
@@ -56,7 +67,7 @@ function TaskCard({ task, asHandle, isOverlay, ...props }: TaskCardProps) {
   );
 
   return (
-    <KanbanItem value={task.id} {...props}>
+    <KanbanItem value={String(task.id)} {...props}>
       {asHandle && !isOverlay ? (
         <KanbanItemHandle>{cardContent}</KanbanItemHandle>
       ) : (
@@ -127,6 +138,7 @@ export function JobsKanban() {
       });
       return returnValue;
     }
+    return {};
   }, [kanbanData]);
 
   const columnsMemo = useMemo<Record<string, Task[]> | undefined>(() => {
@@ -161,8 +173,8 @@ export function JobsKanban() {
           await moveJob({
             jobId: jobId,
             data: {
-              kanbanStatusId: kanbanStatusId
-            }
+              kanbanStatusId: kanbanStatusId,
+            },
           });
         } catch (error) {
           // Rollback: restaura o estado anterior
@@ -171,7 +183,7 @@ export function JobsKanban() {
           toast.error("Error trying to move the job");
         }
       }}
-      getItemValue={(item) => item.id}
+      getItemValue={(item) => String(item.id)}
     >
       <KanbanBoard className="grid auto-rows-fr grid-cols-3">
         {Object.entries(columns).map(([columnValue, tasks]) => (
